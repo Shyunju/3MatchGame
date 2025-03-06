@@ -13,21 +13,10 @@ public class PuzzlePiece : MonoBehaviour
         red,
         blue,
         green,
-        yelow
+        yelow,
+        pink,
+        sky
     }*/
     //public Colors color;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    void Matching()
-    {
-        
-    }
+    
 }

@@ -29,11 +29,15 @@ public class Board : MonoBehaviour
         GameObject now;
         for(int y = 0; y < puzzleSize.y; ++y){
             for(int x = 0; x < puzzleSize.x; ++x){
-                int num = Random.Range(0, 4);
+                int num = Random.Range(0, 6);
                 puzzleBoard[y,x] = num;
                 now = Instantiate(pieces[num], pieceParents);
                 now.GetComponent<PuzzlePiece>().color = num;
             }
         }
+    }
+    void Matching()
+    {
+        
     }
 }
