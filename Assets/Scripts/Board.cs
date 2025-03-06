@@ -29,15 +29,25 @@ public class Board : MonoBehaviour
         GameObject now;
         for(int y = 0; y < puzzleSize.y; ++y){
             for(int x = 0; x < puzzleSize.x; ++x){
-                int num = Random.Range(0, 6);
+                int num = Random.Range(0, pieces.Length);
                 puzzleBoard[y,x] = num;
                 now = Instantiate(pieces[num], pieceParents);
                 now.GetComponent<PuzzlePiece>().color = num;
             }
         }
     }
-    void Matching()
+    public void CallMatching(int col, int row, int cur)
     {
-        
+        // 현재 좌표기준 상하 혹은 좌우가 현재의 컬러와 같은 값이면 디스트로이
+        if(HorizomMatching()) 
+        {}
+    }
+    private bool HorizomMatching() //가로검사
+    {
+        return false;
+    }
+    private bool VirticalMatching()//세로검사
+    {
+        return false;
     }
 }

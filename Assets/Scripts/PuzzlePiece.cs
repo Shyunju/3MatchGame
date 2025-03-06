@@ -18,5 +18,7 @@ public class PuzzlePiece : MonoBehaviour
         sky
     }*/
     //public Colors color;
+
+    //스왚하는 두개의 좌표로 매칭검사 (두번 호출)
     
 }
