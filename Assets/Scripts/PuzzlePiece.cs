@@ -6,14 +6,16 @@ public class PuzzlePiece : MonoBehaviour
     //상하좌우의 퍼즐들의 값이 같으면 파괴한다. 배열에 값을 전달할까?
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public enum Colors
+    private Board  board = new Board();
+    public int color=0;
+    /*public enum Colors
     {
         red,
         blue,
         green,
         yelow
-    }
-    public Colors color;
+    }*/
+    //public Colors color;
     void Start()
     {
         

@@ -1,11 +1,15 @@
+using Microsoft.Unity.VisualStudio.Editor;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Board : MonoBehaviour
 {
     [SerializeField]
-    private GameObject piecePrefeb;//퍼즐조각
+    public GameObject[] pieces;//퍼즐조각
     [SerializeField]
     private Transform pieceParents; //보드
+
+    private int[,] puzzleBoard = new int[8,5];
 
     private Vector2Int puzzleSize = new Vector2Int(5,8);  //퍼즐판 크기
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,9 +26,13 @@ public class Board : MonoBehaviour
 
     void SpawnPiece()
     {
+        GameObject now;
         for(int y = 0; y < puzzleSize.y; ++y){
             for(int x = 0; x < puzzleSize.x; ++x){
-                Instantiate(piecePrefeb, pieceParents);
+                int num = Random.Range(0, 4);
+                puzzleBoard[y,x] = num;
+                now = Instantiate(pieces[num], pieceParents);
+                now.GetComponent<PuzzlePiece>().color = num;
             }
         }
     }

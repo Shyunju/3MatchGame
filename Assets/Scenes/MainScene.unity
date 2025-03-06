@@ -450,7 +450,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c6de67f598141a78c00522a0bc618e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piecePrefeb: {fileID: 1441990920905354664, guid: 5d7ea56e66cfc414a9cc37b322d87a17, type: 3}
+  pieces:
+  - {fileID: 1441990920905354664, guid: 5d7ea56e66cfc414a9cc37b322d87a17, type: 3}
+  - {fileID: 6428078946312462701, guid: badfffb7f53a84f0db854ae26d866da4, type: 3}
+  - {fileID: 6137548589846861419, guid: 80ed8cd2e5e5247e59cb9cec1c52f2fd, type: 3}
+  - {fileID: 8781388597386975946, guid: 725e4cda1fc444ba09bb95b3e0c57c8c, type: 3}
   pieceParents: {fileID: 810717375}
 --- !u!114 &810717377
 MonoBehaviour:
