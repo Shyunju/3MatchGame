@@ -7,7 +7,10 @@ public class PuzzlePiece : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private Board  board = new Board();
+
     public int color=0;
+    public int y;
+    public int x;
     /*public enum Colors
     {
         red,
