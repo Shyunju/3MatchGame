@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             for(int x = 0; x < board.heigth; ++x){
                 int num = board.colorBoard[y,x];
                 if(board.CallMatching(y,x,num)){}
-                    DestroyPuzzle();
+                    //DestroyPuzzle();
                 //Debug.Log("체킹실행");
             }
         }

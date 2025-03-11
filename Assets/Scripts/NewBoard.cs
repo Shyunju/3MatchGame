@@ -7,11 +7,11 @@ public class NewBoard : MonoBehaviour
     public int heigth;
     public int width;
     public GameObject tilePrefab;
-    public GameObject[] dots; //생성가능한 퍼즐 종류
-    private BackgroundTile[,] allTiles; //보드 기판
-    public GameObject[,] puzzleBoard; //실제 오브젝트가 들어있는 배열
-    public int[,] colorBoard; //컬러값이 들어가있는 배열
-    public HashSet<(int,int)> killList = new HashSet<(int,int)> (); //삭제할 좌표목록
+    public GameObject[] dots;                                           //생성가능한 퍼즐 종류
+    private BackgroundTile[,] allTiles;                                 //보드 기판
+    public GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
+    public int[,] colorBoard;                                           //컬러값이 들어가있는 배열
+    public HashSet<(int,int)> killList = new HashSet<(int,int)> ();     //삭제할 좌표목록
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class NewBoard : MonoBehaviour
                 backgroundTile.transform.parent = this.transform;
                 int dotToUse = Random.Range(0, dots.Length);
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
-                dot.GetComponent<PuzzlePiece>().color = dotToUse;
+                //dot.GetComponent<PuzzlePiece>().color = dotToUse;
                 puzzleBoard[i,j] = dot;
                 dot.transform.parent = this.transform;
             }
@@ -53,7 +53,6 @@ public class NewBoard : MonoBehaviour
                         killList.Add((col+dirY[i], row+dirX[i]));
                         killList.Add((col+dirY[i+2], row + dirX[i+2]));
                         matching = true;
-                        Debug.Log("매칭성공");
                     }
                 }
                 if(col+dirY[i+4] >= 0 && col + dirY[i+4] < puzzleBoard.GetLength(0) && row + dirX[i+4] >= 0 && row + dirX[i+4] < puzzleBoard.GetLength(1)){ //한칸더 검사
@@ -62,7 +61,6 @@ public class NewBoard : MonoBehaviour
                         killList.Add((col+dirY[i], row+dirX[i]));
                         killList.Add((col+dirY[i+4], row + dirX[i+4]));
                         matching = true;
-                        Debug.Log("매칭성공");
                     }
                 }
             }
