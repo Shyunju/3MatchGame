@@ -77,11 +77,16 @@ public class PuzzlePiece : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         if(otherDot != null){
-            if(!isMatched && !otherDot.GetComponent<PuzzlePiece>().isMatched){
-                otherDot.GetComponent<PuzzlePiece>().row = row;
+             //두 퍼즐 모두 매칭되지 않으면 원래의 좌표로 되돌림
+            if(!isMatched && !otherDot.GetComponent<PuzzlePiece>().isMatched){ 
+                otherDot.GetComponent<PuzzlePiece>().row = row; 
                 otherDot.GetComponent<PuzzlePiece>().column = column;
                 row = previousRow;
                 column = previousColumn;
+            }
+            else
+            {
+                board.DestroyMatches();
             }
             otherDot = null;
         }
@@ -109,6 +114,7 @@ public class PuzzlePiece : MonoBehaviour
     }
     void MovePieces()
     {
+        //스와이프한 기울기에 따라 방향을 판정하고 해당 방향의 퍼즐과 과표를 바꿈
         if(swipeAngle > - 45 && swipeAngle <= 45 && column < board.width-1)
         {
             //right swipe
@@ -137,7 +143,7 @@ public class PuzzlePiece : MonoBehaviour
             otherDot.GetComponent<PuzzlePiece>().row += 1;
             row -= 1;
         }
-        StartCoroutine(CheckMoveCo());
+        StartCoroutine(CheckMoveCo()); //매칭확인 코루틴
 
     }
     void FindMatches()
