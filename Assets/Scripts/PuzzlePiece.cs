@@ -1,24 +1,33 @@
+using System.Collections;
+using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
+using Vector2 = UnityEngine.Vector2;
 
 public class PuzzlePiece : MonoBehaviour
 {
     //고유의의 값을 져 색을 판별한다.
     //상하좌우의 퍼즐들의 값이 같으면 파괴한다. 배열에 값을 전달할까?
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    [Header("Board Variables")]
     public int column;
     public int row;
+    public int previousColumn;
+    public int previousRow;
     public int targetX;
     public int targetY;
-    public bool isMatched;
+    public bool isMatched = false;
+
 
     private NewBoard board;
     private GameObject otherDot;
-    private Vector2 firstTouchPosition;
-    private Vector2 finalTouchPosition;
+    private Vector3 firstTouchPosition;
+    private Vector3 finalTouchPosition;
     public float swipeAngle = 0;
+    public float swipeResist = .5f;
     private Camera cam;
-    private Vector2 tempPositon;
+    private Vector3 tempPositon;
 
     private void Start()
     {
@@ -28,6 +37,8 @@ public class PuzzlePiece : MonoBehaviour
         targetY = (int)transform.position.y;
         row = targetY;
         column = targetX;
+        previousRow = row;
+        previousColumn = column;
     }
 
     private void Update()
@@ -41,26 +52,40 @@ public class PuzzlePiece : MonoBehaviour
         targetY = row;
         if(Mathf.Abs(targetX - transform.position.x) > .1)
         {
-            tempPositon = new Vector2(targetX, transform.position.y);
-            transform.position = Vector2.Lerp(transform.position, tempPositon, .4f);
+            tempPositon = new Vector3(targetX, transform.position.y, 10f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, .4f);
         }
         else
         {
-            tempPositon = new Vector2(targetX, transform.position.y);
+            tempPositon = new Vector3(targetX, transform.position.y, 10f);
             transform.position = tempPositon;
             board.puzzleBoard[column, row] = this.gameObject;
         }
         if (Mathf.Abs(targetY - transform.position.y) > .1)
         {
-            tempPositon = new Vector2(transform.position.x, targetY);
-            transform.position = Vector2.Lerp(transform.position, tempPositon, .4f);
+            tempPositon = new Vector3(transform.position.x, targetY, 10f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, .4f);
         }
         else
         {
-            tempPositon = new Vector2(transform.position.x, targetY);
+            tempPositon = new Vector3(transform.position.x, targetY, 10f);
             transform.position = tempPositon;
             board.puzzleBoard[column, row] = this.gameObject;
         }
+    }
+    public IEnumerator CheckMoveCo()
+    {
+        yield return new WaitForSeconds(.5f);
+        if(otherDot != null){
+            if(!isMatched && !otherDot.GetComponent<PuzzlePiece>().isMatched){
+                otherDot.GetComponent<PuzzlePiece>().row = row;
+                otherDot.GetComponent<PuzzlePiece>().column = column;
+                row = previousRow;
+                column = previousColumn;
+            }
+            otherDot = null;
+        }
+
     }
     private void OnMouseDown()
     {
@@ -76,19 +101,22 @@ public class PuzzlePiece : MonoBehaviour
 
     void CalculateAngle()
     {
-        swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180/ Mathf.PI;
-        MovePieces();
+        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist){ //터치 유효검사
+            swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180/ Mathf.PI;
+            MovePieces();
+
+        }
     }
     void MovePieces()
     {
-        if(swipeAngle > - 45 && swipeAngle <= 45 && column < board.width)
+        if(swipeAngle > - 45 && swipeAngle <= 45 && column < board.width-1)
         {
             //right swipe
             otherDot = board.puzzleBoard[column + 1, row];
             otherDot.GetComponent<PuzzlePiece>().column -= 1;
             column += 1;
         }
-        else if (swipeAngle > 45 && swipeAngle <= 135 && row < board.heigth)
+        else if (swipeAngle > 45 && swipeAngle <= 135 && row < board.heigth-1)
         {
             //up swipe
             otherDot = board.puzzleBoard[column, row+1];
@@ -109,6 +137,7 @@ public class PuzzlePiece : MonoBehaviour
             otherDot.GetComponent<PuzzlePiece>().row += 1;
             row -= 1;
         }
+        StartCoroutine(CheckMoveCo());
 
     }
     void FindMatches()
@@ -116,33 +145,25 @@ public class PuzzlePiece : MonoBehaviour
         if(column > 0 && column < board.width -1){
             GameObject leftDot1 = board.puzzleBoard[column-1, row];
             GameObject rightDot1 = board.puzzleBoard[column+1, row];
-            if(leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag){
-                leftDot1.GetComponent<PuzzlePiece>().isMatched = true;
-                rightDot1.GetComponent<PuzzlePiece>().isMatched=true;
-                isMatched = true;
+            if(leftDot1 != null && rightDot1 != null){
+                if(leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag){
+                    leftDot1.GetComponent<PuzzlePiece>().isMatched = true;
+                    rightDot1.GetComponent<PuzzlePiece>().isMatched=true;
+                    isMatched = true;
+                }
             }
         }
         if(row > 0 && row < board.heigth -1){
             GameObject upDot1 = board.puzzleBoard[column, row +1];
             GameObject downDot1 = board.puzzleBoard[column, row -1];
-            if(upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag){
-                upDot1.GetComponent<PuzzlePiece>().isMatched = true;
-                downDot1.GetComponent<PuzzlePiece>().isMatched=true;
-                isMatched = true;
+            if(upDot1 != null && downDot1 != null){
+                if(upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag){
+                    upDot1.GetComponent<PuzzlePiece>().isMatched = true;
+                    downDot1.GetComponent<PuzzlePiece>().isMatched=true;
+                    isMatched = true;
+                }
             }
         }
     }
-    /*public enum Colors
-    {
-        red,
-        blue,
-        green,
-        yelow,
-        pink,
-        sky
-    }*/
-    //public Colors color;
-
-    //스왚하는 두개의 좌표로 매칭검사 (두번 호출)
 
 }

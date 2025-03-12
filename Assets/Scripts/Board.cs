@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-public class NewBoard : MonoBehaviour
+public class Board : MonoBehaviour
 {
     //public GameManager gameManager;
     public int heigth;
@@ -30,41 +30,42 @@ public class NewBoard : MonoBehaviour
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPosition,Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
                 int dotToUse = Random.Range(0, dots.Length);
-                
-                int maxIterations = 0;
-                while(MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100){
-                    dotToUse = Random.Range(0, dots.Length);
-                    maxIterations++;
-                }
-                maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                //dot.GetComponent<PuzzlePiece>().color = dotToUse;
                 puzzleBoard[i,j] = dot;
                 dot.transform.parent = this.transform;
             }
         }
     }
-    private bool MatchesAt(int column, int row, GameObject piece)
+    public bool CallMatching(int col, int row, int cur)
     {
-        if(column > 1 && row > 1){
-            if(puzzleBoard[column-1, row].tag == piece.tag && puzzleBoard[column-2, row].tag == piece.tag){
-                return true;
-            }
-            if(puzzleBoard[column, row-1].tag == piece.tag && puzzleBoard[column, row-2].tag == piece.tag){
-                return true;
-            }
-        }else if(column <= 1 || row <= 1){
-            if(row > 1){
-                if(puzzleBoard[column, row -1].tag == piece.tag && puzzleBoard[column, row -2].tag == piece.tag){
-                    return true;
+        // 현재 좌표기준 상하 혹은 좌우가 현재의 컬러와 같은 값이면 디스트로이
+        int[] dirY = {0, 1, 0, -1, 0, 2, 0, -2};
+        int[] dirX = {1, 0, -1, 0, 2, 0, -2, 0};
+        bool matching = false;
+
+        for(int i = 0; i < 4; ++i){
+            if(col+dirY[i] < 0 || col + dirY[i] >= puzzleBoard.GetLength(0) || row + dirX[i] < 0 || row + dirX[i] >= puzzleBoard.GetLength(1))  continue;
+            if(colorBoard[col +dirY[i], row+ dirX[i]] == cur){
+                if(col+dirY[i+2] >= 0 && col + dirY[i+2] < puzzleBoard.GetLength(0) && row + dirX[i+2] >= 0 && row + dirX[i+2] < puzzleBoard.GetLength(1)){ //맞은편 검사
+
+                    if(colorBoard[col + dirY[i+2], row + dirX[i+2]] == cur){
+                        killList.Add((col+dirY[i], row+dirX[i]));
+                        killList.Add((col+dirY[i+2], row + dirX[i+2]));
+                        matching = true;
+                    }
                 }
-            }
-            if(column > 1){
-                if(puzzleBoard[column-1, row].tag == piece.tag && puzzleBoard[column-2, row].tag == piece.tag){
-                    return true;
+                if(col+dirY[i+4] >= 0 && col + dirY[i+4] < puzzleBoard.GetLength(0) && row + dirX[i+4] >= 0 && row + dirX[i+4] < puzzleBoard.GetLength(1)){ //한칸더 검사
+
+                    if(colorBoard[col + dirY[i+4],row+ dirX[i+4]] == cur){
+                        killList.Add((col+dirY[i], row+dirX[i]));
+                        killList.Add((col+dirY[i+4], row + dirX[i+4]));
+                        matching = true;
+                    }
                 }
             }
         }
-        
-        return false;
+        return matching;
+
     }
 }

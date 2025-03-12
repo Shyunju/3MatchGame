@@ -4,13 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Blue
-  - Red
-  - Pink
-  - Green
-  - Yellow
-  - Puple
-  - empty
+  - BlueDot
+  - PinkDot
+  - RedDot
+  - GreenDot
+  - PupleDot
+  - YellowDot
   layers:
   - Default
   - TransparentFX
