@@ -2,28 +2,37 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
+
+public enum GameState{
+    wait,
+    move
+}
 public class NewBoard : MonoBehaviour
 {
-    public int heigth;
+    public GameState currentState = GameState.move;
+    public int height;
     public int width;
+    public int offSet;
     public GameObject tilePrefab;
     public GameObject[] dots;                                           //생성가능한 퍼즐 종류
     private BackgroundTile[,] allTiles;                                 //보드 기판
     public GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
+    private FindMatches findMatches;
 
     void Start()
     {
-        puzzleBoard = new GameObject[width,heigth];
-        allTiles = new BackgroundTile[width, heigth];
+        findMatches = FindObjectOfType<FindMatches>();
+        puzzleBoard = new GameObject[width,height];
+        allTiles = new BackgroundTile[width, height];
         SetUp();
     }
 
     private void SetUp()
     {
         for(int i = 0; i < width; ++i){
-            for(int j = 0; j < heigth; ++j){
-                Vector2 tempPosition = new Vector2(i,j);
-                GameObject backgroundTile = Instantiate(tilePrefab, tempPosition,Quaternion.identity) as GameObject;
+            for(int j = 0; j < height; ++j){
+                Vector2 tempPosition = new Vector2(i,j + offSet);
+                GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
                 int dotToUse = Random.Range(0, dots.Length);
                 
@@ -35,6 +44,8 @@ public class NewBoard : MonoBehaviour
                 }
                 //maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                dot.GetComponent<PuzzlePiece>().row = j;
+                dot.GetComponent<PuzzlePiece>().column = i;
                 puzzleBoard[i,j] = dot;
                 dot.transform.parent = this.transform;
             }
@@ -67,6 +78,7 @@ public class NewBoard : MonoBehaviour
    private void DestroyMatchesAt(int column, int row) //좌표 받아서 매칭이 성공한 퍼즐이라면 파괴하고 배열에서 null처리
     {
         if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
+            findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
         }
@@ -75,7 +87,7 @@ public class NewBoard : MonoBehaviour
     {
         for(int i = 0; i < width; ++i)
         {
-            for(int j = 0; j < heigth; ++j)
+            for(int j = 0; j < height; ++j)
             {
                 if (puzzleBoard[i,j] != null)
                 {
@@ -88,7 +100,7 @@ public class NewBoard : MonoBehaviour
     private IEnumerator DecreaseRowCo(){ //몇개를 채워야할지 파악하기
         int nullCount = 0;
         for(int i = 0; i < width; ++i){
-            for(int j = 0; j < heigth; ++j){
+            for(int j = 0; j < height; ++j){
                 if(puzzleBoard[i,j] == null){
                     nullCount++;
                 }else if(nullCount > 0){
@@ -103,19 +115,21 @@ public class NewBoard : MonoBehaviour
     }
     private void RefillBoard(){
         for(int i = 0; i < width; ++i){
-            for(int j = 0; j < heigth; ++j){
+            for(int j = 0; j < height; ++j){
                 if(puzzleBoard[i,j] == null){
-                    Vector3 tempPosition = new Vector3(i,j, 10f);
+                    Vector3 tempPosition = new Vector3(i,j+offSet, 10f);
                     int dotToUse =  Random.Range(0, dots.Length);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity) as GameObject;
                     puzzleBoard[i,j] = piece;
+                    piece.GetComponent<PuzzlePiece>().row = j;
+                    piece.GetComponent<PuzzlePiece>().column = i;
                 }
             }
         }
     }
     private bool MatchesOnBoard(){ //매칭된것이 있는지 확인
         for(int i = 0; i < width; ++i){
-            for(int j = 0; j < heigth; ++j){
+            for(int j = 0; j < height; ++j){
                 if(puzzleBoard[i,j] != null){
                     if(puzzleBoard[i,j].GetComponent<PuzzlePiece>().isMatched){
                         return true;
@@ -133,5 +147,7 @@ public class NewBoard : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        yield return new WaitForSeconds(.5f);
+        currentState = GameState.move;
     }
 }
