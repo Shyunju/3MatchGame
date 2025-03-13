@@ -53,24 +53,28 @@ public class PuzzlePiece : MonoBehaviour
         if(Mathf.Abs(targetX - transform.position.x) > .1)
         {
             tempPositon = new Vector3(targetX, transform.position.y, 10f);
-            transform.position = Vector3.Lerp(transform.position, tempPositon, .4f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, .1f);
+            if(board.puzzleBoard[column,row] != this.gameObject){
+                board.puzzleBoard[column,row]=  this.gameObject;
+            }
         }
         else
         {
             tempPositon = new Vector3(targetX, transform.position.y, 10f);
             transform.position = tempPositon;
-            board.puzzleBoard[column, row] = this.gameObject;
         }
         if (Mathf.Abs(targetY - transform.position.y) > .1)
         {
             tempPositon = new Vector3(transform.position.x, targetY, 10f);
-            transform.position = Vector3.Lerp(transform.position, tempPositon, .4f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, .1f);
+            if(board.puzzleBoard[column,row] != this.gameObject){
+                board.puzzleBoard[column,row]=  this.gameObject;
+            }
         }
         else
         {
             tempPositon = new Vector3(transform.position.x, targetY, 10f);
             transform.position = tempPositon;
-            board.puzzleBoard[column, row] = this.gameObject;
         }
     }
     public IEnumerator CheckMoveCo()
@@ -104,9 +108,9 @@ public class PuzzlePiece : MonoBehaviour
         CalculateAngle();
     }
 
-    void CalculateAngle()
+    void CalculateAngle() //터치 유효검사
     {
-        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist){ //터치 유효검사
+        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist){ 
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180/ Mathf.PI;
             MovePieces();
 

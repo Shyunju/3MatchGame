@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
 public class NewBoard : MonoBehaviour
 {
     public int heigth;
@@ -63,7 +64,7 @@ public class NewBoard : MonoBehaviour
         
         return false;
     }
-   private void DestroyMatchesAt(int column, int row)
+   private void DestroyMatchesAt(int column, int row) //좌표 받아서 매칭이 성공한 퍼즐이라면 파괴하고 배열에서 null처리
     {
         if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
             Destroy(puzzleBoard[column, row]);
@@ -76,11 +77,61 @@ public class NewBoard : MonoBehaviour
         {
             for(int j = 0; j < heigth; ++j)
             {
-                if (puzzleBoard[i,j]  != null)
+                if (puzzleBoard[i,j] != null)
                 {
                     DestroyMatchesAt(i, j);
                 }
             }
+        }
+        StartCoroutine(DecreaseRowCo());
+    }
+    private IEnumerator DecreaseRowCo(){ //몇개를 채워야할지 파악하기
+        int nullCount = 0;
+        for(int i = 0; i < width; ++i){
+            for(int j = 0; j < heigth; ++j){
+                if(puzzleBoard[i,j] == null){
+                    nullCount++;
+                }else if(nullCount > 0){
+                    puzzleBoard[i,j].GetComponent<PuzzlePiece>().row -= nullCount;
+                    puzzleBoard[i,j] = null;
+                }
+            }
+            nullCount = 0;
+        }
+        yield return new WaitForSeconds(.5f);
+        StartCoroutine(FillBoardCo());
+    }
+    private void RefillBoard(){
+        for(int i = 0; i < width; ++i){
+            for(int j = 0; j < heigth; ++j){
+                if(puzzleBoard[i,j] == null){
+                    Vector3 tempPosition = new Vector3(i,j, 10f);
+                    int dotToUse =  Random.Range(0, dots.Length);
+                    GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity) as GameObject;
+                    puzzleBoard[i,j] = piece;
+                }
+            }
+        }
+    }
+    private bool MatchesOnBoard(){ //매칭된것이 있는지 확인
+        for(int i = 0; i < width; ++i){
+            for(int j = 0; j < heigth; ++j){
+                if(puzzleBoard[i,j] != null){
+                    if(puzzleBoard[i,j].GetComponent<PuzzlePiece>().isMatched){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private IEnumerator FillBoardCo(){ 
+        RefillBoard(); //빈자리 채우고
+        yield return new WaitForSeconds(.5f);
+
+        while(MatchesOnBoard()){ //새로 생서된게 바로 매칭이 되면 파괴하는 과정
+            yield return new WaitForSeconds(.5f);
+            DestroyMatches();
         }
     }
 }
