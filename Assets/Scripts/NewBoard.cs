@@ -9,6 +9,7 @@ public enum GameState{
 }
 public class NewBoard : MonoBehaviour
 {
+    public GameManager gameManager;
     public GameState currentState = GameState.move;
     public int height;
     public int width;
@@ -24,6 +25,7 @@ public class NewBoard : MonoBehaviour
         findMatches = FindObjectOfType<FindMatches>();
         puzzleBoard = new GameObject[width,height];
         allTiles = new BackgroundTile[width, height];
+        gameManager.GetComponent<GameManager>().isPlaying = true;
         SetUp();
     }
 
@@ -81,6 +83,7 @@ public class NewBoard : MonoBehaviour
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
+            gameManager.score += 100;
         }
     }
     public void DestroyMatches()
