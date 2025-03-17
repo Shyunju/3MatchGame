@@ -8,11 +8,15 @@ public class GameManager : MonoBehaviour
     public bool isPlaying = false;
     public TMP_Text timeTxt;
     public TMP_Text scoreTxt;
-    public GameObject gameOverBtn;
+    public GameObject gameOverBoard;
     public int score;
+
+    private NewBoard board;
 
     void Start()
     {
+        board = FindObjectOfType<NewBoard>();
+        board.currentState = GameState.wait;
         Time.timeScale = 1.0f; 
         score = 0;
     }
@@ -32,8 +36,17 @@ public class GameManager : MonoBehaviour
         
     }
     void TimeIsUp(){
-        gameOverBtn.SetActive(true);
+        gameOverBoard.SetActive(true);
         Time.timeScale = 0f;
+        board.currentState = GameState.wait;
+    }
+
+    private void GameStart()
+    {
+        //시간 리셋
+        time = 60.0f;
+        gameOverBoard.SetActive(false);
+        board.currentState = GameState.move;
     }
     
     
