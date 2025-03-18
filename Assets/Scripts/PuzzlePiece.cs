@@ -187,4 +187,8 @@ public class PuzzlePiece : MonoBehaviour
         }
     }
 
+    void Calculate(){
+        
+    }
+
 }
