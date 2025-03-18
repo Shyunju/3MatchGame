@@ -201,7 +201,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 49121048}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 731037290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GoToStartScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &49121048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,7 +632,8 @@ MonoBehaviour:
   isPlaying: 0
   timeTxt: {fileID: 1923711566}
   scoreTxt: {fileID: 1868266612}
-  gameOverBoard: {fileID: 0}
+  gameOverBoard: {fileID: 846440580}
+  gameStartBoard: {fileID: 1762942962}
   score: 0
 --- !u!4 &731037291
 Transform:
@@ -976,7 +989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1105799235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,7 +1557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1762942963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1986,7 +1999,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1947172771}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 731037290}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GameStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1947172771
 MonoBehaviour:
   m_ObjectHideFlags: 0

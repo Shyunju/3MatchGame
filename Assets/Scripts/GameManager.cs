@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text timeTxt;
     public TMP_Text scoreTxt;
     public GameObject gameOverBoard;
+    public GameObject gameStartBoard;
     public int score;
 
     private NewBoard board;
@@ -35,17 +36,25 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    void TimeIsUp(){
+    private void TimeIsUp(){
         gameOverBoard.SetActive(true);
         Time.timeScale = 0f;
         board.currentState = GameState.wait;
     }
+    public void GoToStartScreen()
+    {
+        gameOverBoard.SetActive(false);
+        timeTxt.text = "Time : ";
+        scoreTxt.text = "Score : ";
+        gameStartBoard.SetActive(true);
+    }
 
-    private void GameStart()
+
+    public void GameStart()
     {
         //시간 리셋
         time = 60.0f;
-        gameOverBoard.SetActive(false);
+        gameStartBoard.SetActive(false);
         board.currentState = GameState.move;
     }
     
