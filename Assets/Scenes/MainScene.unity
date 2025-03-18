@@ -632,9 +632,13 @@ MonoBehaviour:
   isPlaying: 0
   timeTxt: {fileID: 1923711566}
   scoreTxt: {fileID: 1868266612}
+  bestScoreTxt: {fileID: 1470184931}
+  currentScoreTxt: {fileID: 2110693973}
   gameOverBoard: {fileID: 846440580}
   gameStartBoard: {fileID: 1762942962}
+  inGameCanvas: {fileID: 1105799234}
   score: 0
+  comboTime: 3
 --- !u!4 &731037291
 Transform:
   m_ObjectHideFlags: 0
@@ -989,7 +993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1105799235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,7 +1561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1762942963
 MonoBehaviour:
   m_ObjectHideFlags: 0

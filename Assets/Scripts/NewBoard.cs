@@ -25,12 +25,12 @@ public class NewBoard : MonoBehaviour
         findMatches = FindObjectOfType<FindMatches>();
         puzzleBoard = new GameObject[width,height];
         allTiles = new BackgroundTile[width, height];
-        gameManager.GetComponent<GameManager>().isPlaying = true;
-        SetUp();
+        //SetUp();
     }
 
-    private void SetUp()
+    public void SetUp()
     {
+        gameManager.GetComponent<GameManager>().isPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
                 Vector2 tempPosition = new Vector2(i,j + offSet);
@@ -83,7 +83,10 @@ public class NewBoard : MonoBehaviour
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
-            gameManager.score += 100;
+            if(gameManager.comboTime > 0.0f){
+                gameManager.score += 200;
+            }else
+                gameManager.score += 100;
         }
     }
     public void DestroyMatches()
@@ -126,6 +129,8 @@ public class NewBoard : MonoBehaviour
                     puzzleBoard[i,j] = piece;
                     piece.GetComponent<PuzzlePiece>().row = j;
                     piece.GetComponent<PuzzlePiece>().column = i;
+                    piece.transform.parent = this.transform;
+
                 }
             }
         }

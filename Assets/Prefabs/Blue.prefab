@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3287431577928498666}
   m_Layer: 0
   m_Name: Blue
-  m_TagString: Blue
+  m_TagString: BlueDot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.2415895, g: 0.40106484, b: 0.8396226, a: 1}
+  m_Color: {r: 0.33922213, g: 0.49573267, b: 0.9339623, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,9 +103,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   column: 0
   row: 0
+  previousColumn: 0
+  previousRow: 0
   targetX: 0
   targetY: 0
+  isMatched: 0
   swipeAngle: 0
+  swipeResist: 1
 --- !u!58 &-3287431577928498666
 CircleCollider2D:
   m_ObjectHideFlags: 0

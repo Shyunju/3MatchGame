@@ -33,18 +33,12 @@ public class PuzzlePiece : MonoBehaviour
         cam = GameObject.Find("MainCamera").GetComponent<Camera>();
         board = FindObjectOfType<NewBoard>();
         findMatches = FindObjectOfType<FindMatches>();
-        //targetX = (int)transform.position.x;
-        //targetY = (int)transform.position.y;
-        // row = targetY;
-        // column = targetX;
-        // previousRow = row;
-        // previousColumn = column;
     }
 
     private void Update()
     {
         FindMatches();
-        if(isMatched){
+        if(isMatched){ //색 바꾸기
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(1f, 1f, 1f, .2f);
         }
@@ -82,7 +76,7 @@ public class PuzzlePiece : MonoBehaviour
     }
     public IEnumerator CheckMoveCo()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.3f);
         if(otherDot != null){
              //두 퍼즐 모두 매칭되지 않으면 원래의 좌표로 되돌림
             if(!isMatched && !otherDot.GetComponent<PuzzlePiece>().isMatched){ 
@@ -90,7 +84,7 @@ public class PuzzlePiece : MonoBehaviour
                 otherDot.GetComponent<PuzzlePiece>().column = column;
                 row = previousRow;
                 column = previousColumn;
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(.3f);
                 board.currentState = GameState.move;
             }
             else
@@ -167,7 +161,7 @@ public class PuzzlePiece : MonoBehaviour
         StartCoroutine(CheckMoveCo()); //매칭확인 코루틴
 
     }
-    void FindMatches()
+    void FindMatches() //좌우상하 비교 
     {
         if(column > 0 && column < board.width -1){
             GameObject leftDot1 = board.puzzleBoard[column-1, row];
