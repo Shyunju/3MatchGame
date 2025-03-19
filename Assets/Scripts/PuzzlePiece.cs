@@ -18,6 +18,7 @@ public class PuzzlePiece : MonoBehaviour
     public int targetY;
     public bool isMatched = false;
 
+    public int number;
     private FindMatches findMatches;
     private NewBoard board;
     private GameObject otherDot;
@@ -121,7 +122,7 @@ public class PuzzlePiece : MonoBehaviour
     }
     void MovePieces()
     {
-        //스와이프한 기울기에 따라 방향을 판정하고 해당 방향의 퍼즐과 과표를 바꿈
+        //스와이프한 기울기에 따라 방향을 판정하고 해당 방향의 퍼즐과 좌표를 바꿈
         if(swipeAngle > - 45 && swipeAngle <= 45 && column < board.width-1)
         {
             //right swipe
@@ -187,8 +188,6 @@ public class PuzzlePiece : MonoBehaviour
         }
     }
 
-    void Calculate(){
-        
-    }
+    
 
 }

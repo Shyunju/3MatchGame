@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
@@ -10,18 +11,32 @@ public class GameManager : MonoBehaviour
     public TMP_Text timeTxt;
     public TMP_Text scoreTxt;
     public TMP_Text bestScoreTxt;
+    public TMP_Text number1Txt;
+    public TMP_Text number2Txt;
+    public TMP_Text operatorTxt;
+    public TMP_Text answerTxt;
+    public TMP_Text comparatorTxt;
     public TMP_Text currentScoreTxt;
     public GameObject gameOverBoard;
     public GameObject gameStartBoard;
     public GameObject inGameCanvas;
     public int score;
     private int bestScore;
+    private int[] numbers = new int[2];
 
     private NewBoard board;
     public float comboTime = 3.0f;
 
+    private enum Operators{
+        plus,
+        minus,
+        multiply,
+        divide
+    }
     void Start()
     {
+        int asdf = Enum.GetValues(typeof(Operators)).Length;
+        Debug.Log(asdf);
         board = FindObjectOfType<NewBoard>();
         if (PlayerPrefs.HasKey("BestScore"))
         {
@@ -75,6 +90,26 @@ public class GameManager : MonoBehaviour
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         board.SetUp(); 
+    }
+    private void MakeFormula()
+    {
+        //수연산자와 비교연산지 채우기
+    }
+    public void FillNumberArray(int num)
+    {
+        //피연산자 배열 채우기
+        for(int i = 0; i < numbers.Length; ++i)
+        {
+            if(numbers[i] == 0)
+            {
+                numbers[i] = num;
+                break;
+            }
+        }
+    }
+    private void CheckFormula()
+    {
+        //식 계산 확인하기 
     }
     
     
