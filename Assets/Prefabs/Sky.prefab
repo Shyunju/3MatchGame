@@ -108,6 +108,7 @@ MonoBehaviour:
   targetX: 0
   targetY: 0
   isMatched: 0
+  number: 8
   swipeAngle: 0
   swipeResist: 0.5
 --- !u!58 &7593437319187329919

@@ -14,7 +14,6 @@ public class NewBoard : MonoBehaviour
     public int height;
     public int width;
     public int offSet;
-    private int num;
     public GameObject tilePrefab;
     public GameObject[] dots;                                           //생성가능한 퍼즐 종류
     private BackgroundTile[,] allTiles;                                 //보드 기판
@@ -82,7 +81,10 @@ public class NewBoard : MonoBehaviour
     {
         if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
-            num = puzzleBoard[column,row].GetComponent<PuzzlePiece>().number;
+            if(findMatches.currentMatches.Count == 0) 
+            {
+                gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+            }
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
 
@@ -95,7 +97,6 @@ public class NewBoard : MonoBehaviour
     }
     public void DestroyMatches()
     {
-        num = 0;
         for(int i = 0; i < width; ++i)
         {
             for(int j = 0; j < height; ++j)
@@ -103,11 +104,6 @@ public class NewBoard : MonoBehaviour
                 if (puzzleBoard[i,j] != null)
                 {
                     DestroyMatchesAt(i, j);
-                    if(num != 0)
-                    {
-                        //게임매니저에게 정보 넘김
-                        gameManager.FillNumberArray(num);
-                    }
                 }
             }
         }

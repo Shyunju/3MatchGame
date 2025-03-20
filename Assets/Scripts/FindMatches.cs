@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FindMatches : MonoBehaviour
 {
     private NewBoard board;
+    private GameManager gameManager;
     public List<GameObject> currentMatches = new List<GameObject>();
     void Start()
     {
-        board = FindObjectOfType<NewBoard>();    
+        board = FindObjectOfType<NewBoard>();   
     }
     public void FindAllMatches(){
         StartCoroutine(FindAllMatchesCo());
