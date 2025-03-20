@@ -81,9 +81,13 @@ public class NewBoard : MonoBehaviour
     {
         if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
-            if(findMatches.currentMatches.Count == 0) 
+            if(findMatches.currentMatches.Count == 0) // 계산할 값(피연산자) 전달
             {
-                gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+                if(gameManager.curQState == GameManager.QueueState.empty)
+                {
+                    gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+                    gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+                }
             }
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;

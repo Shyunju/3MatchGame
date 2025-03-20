@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Unity.VisualStudio.Editor;
@@ -31,12 +32,12 @@ public class GameManager : MonoBehaviour
     private NewBoard board;
     public float comboTime = 3.0f;
 
-    private enum Operators{
-        plus,
-        minus,
-        multiply,
-        divide
+    public enum QueueState
+    {
+        empty,
+        full
     }
+    public QueueState curQState = QueueState.empty;
     void Start()
     {
         //int asdf = Enum.GetValues(typeof(Operators)).Length;
@@ -71,15 +72,17 @@ public class GameManager : MonoBehaviour
 
         }
         // 피연산자들이 모두 채워지면 식 검사
-        if(numQueue.Count >=2)
-        {
-            if(CheckFormula())
-            {
-                score += 500;
-            }
-            //numQueue.Clear();
-            MakeFormula();
-        }
+        // if(numQueue.Count >=2)
+        // {
+        //     if(CheckFormula())
+        //     {
+        //         score += 500;
+        //         number1Txt.text = "_";
+        //         number2Txt.text = "_";
+        //     }
+        //     //numQueue.Clear();
+        //     MakeFormula();
+        // }
         
     }
     private void TimeIsUp(){
@@ -145,6 +148,32 @@ public class GameManager : MonoBehaviour
         answer = UnityEngine.Random.Range(10, 82);
         answerTxt.text = answer.ToString();
     }
+    public void FillNumberText(int num)
+    {
+        if(numQueue.Count == 1)
+        {
+            number1Txt.text = num.ToString();
+        }else{
+            number2Txt.text = num.ToString();
+            //Debug.Log(numQueue.Count);
+            curQState = QueueState.full;
+            StartCoroutine(CheckFormulaCo());
+        }
+    }
+    private IEnumerator CheckFormulaCo()
+    {
+        yield return new WaitForSeconds(.5f);
+        if(CheckFormula())
+        {
+            score += 500;
+            number1Txt.text = "_";
+            number2Txt.text = "_";
+        }
+        //numQueue.Clear();
+        curQState = QueueState.empty;
+        MakeFormula();
+    }
+    
     private bool CheckFormula()
     {
         //식 계산 확인하기 
