@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
             // 최고 기록을 저장된 값으로 초기화
             bestScore = PlayerPrefs.GetInt("BestScore");
         }
-        // 없으면 999로 하기
         else
         {
             bestScore = 0;
@@ -71,18 +70,6 @@ public class GameManager : MonoBehaviour
             scoreTxt.text = "Score : " + score.ToString();
 
         }
-        // 피연산자들이 모두 채워지면 식 검사
-        // if(numQueue.Count >=2)
-        // {
-        //     if(CheckFormula())
-        //     {
-        //         score += 500;
-        //         number1Txt.text = "_";
-        //         number2Txt.text = "_";
-        //     }
-        //     //numQueue.Clear();
-        //     MakeFormula();
-        // }
         
     }
     private void TimeIsUp(){
@@ -155,7 +142,6 @@ public class GameManager : MonoBehaviour
             number1Txt.text = num.ToString();
         }else{
             number2Txt.text = num.ToString();
-            //Debug.Log(numQueue.Count);
             curQState = QueueState.full;
             StartCoroutine(CheckFormulaCo());
         }
@@ -166,10 +152,10 @@ public class GameManager : MonoBehaviour
         if(CheckFormula())
         {
             score += 500;
-            number1Txt.text = "_";
-            number2Txt.text = "_";
         }
         //numQueue.Clear();
+        number2Txt.text = "_";
+        number1Txt.text = "_";
         curQState = QueueState.empty;
         MakeFormula();
     }
