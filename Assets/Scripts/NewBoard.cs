@@ -81,12 +81,18 @@ public class NewBoard : MonoBehaviour
     {
         if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
+            if(findMatches.currentMatches.Count == 0) 
+            {
+                gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+            }
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
+
             if(gameManager.comboTime > 0.0f){
                 gameManager.score += 200;
             }else
                 gameManager.score += 100;
+
         }
     }
     public void DestroyMatches()
