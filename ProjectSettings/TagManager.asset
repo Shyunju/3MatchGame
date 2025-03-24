@@ -8,8 +8,11 @@ TagManager:
   - PinkDot
   - RedDot
   - GreenDot
-  - PupleDot
+  - MintDot
   - YellowDot
+  - PurpleDot
+  - SkyDot
+  - OrangeDot
   layers:
   - Default
   - TransparentFX

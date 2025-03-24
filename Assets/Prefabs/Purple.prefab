@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4142560577052430982}
   - component: {fileID: -5527855393732421605}
   m_Layer: 0
-  m_Name: puple
-  m_TagString: PupleDot
+  m_Name: Purple
+  m_TagString: PurpleDot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.8086457, g: 0.38812745, b: 0.9245283, a: 1}
+  m_Sprite: {fileID: 21300000, guid: fa571b6bbe5ff5a458539b368294587c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
