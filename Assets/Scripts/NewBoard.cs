@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public enum GameState{
     wait,
@@ -25,7 +26,6 @@ public class NewBoard : MonoBehaviour
         findMatches = FindObjectOfType<FindMatches>();
         puzzleBoard = new GameObject[width,height];
         allTiles = new BackgroundTile[width, height];
-        //SetUp();
     }
 
     public void SetUp()
@@ -83,7 +83,7 @@ public class NewBoard : MonoBehaviour
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             if(findMatches.currentMatches.Count == 0) // 계산할 값(피연산자) 전달
             {
-                if(gameManager.curQState == GameManager.QueueState.empty)
+                if(gameManager.curQState == GameManager.QueueState.empty && currentState == GameState.wait)
                 {
                     gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
                     gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
@@ -92,10 +92,13 @@ public class NewBoard : MonoBehaviour
             Destroy(puzzleBoard[column, row]);
             puzzleBoard[column, row] = null;
 
-            if(gameManager.comboTime > 0.0f){
-                gameManager.score += 200;
-            }else
-                gameManager.score += 100;
+            if(currentState == GameState.wait)
+            {
+                if(gameManager.comboTime > 0.0f){
+                    gameManager.score += 200;
+                }else
+                    gameManager.score += 100;
+            }
 
         }
     }
@@ -111,6 +114,7 @@ public class NewBoard : MonoBehaviour
                 }
             }
         }
+        
         StartCoroutine(DecreaseRowCo());
     }
     private IEnumerator DecreaseRowCo(){ //몇개를 채워야할지 파악하기
@@ -126,8 +130,19 @@ public class NewBoard : MonoBehaviour
             }
             nullCount = 0;
         }
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.0f);
         StartCoroutine(FillBoardCo());
+    }
+    private IEnumerator FillBoardCo(){ 
+        RefillBoard(); //빈자리 채우고
+        yield return new WaitForSeconds(.5f);
+
+        while(MatchesOnBoard()){ //새로 생서된게 바로 매칭이 되면 파괴하는 과정
+            yield return new WaitForSeconds(.5f);
+            DestroyMatches();
+        }
+        yield return new WaitForSeconds(.5f);
+        currentState = GameState.move;
     }
     private void RefillBoard(){
         for(int i = 0; i < width; ++i){
@@ -157,15 +172,21 @@ public class NewBoard : MonoBehaviour
         }
         return false;
     }
-    private IEnumerator FillBoardCo(){ 
-        RefillBoard(); //빈자리 채우고
-        yield return new WaitForSeconds(.5f);
 
-        while(MatchesOnBoard()){ //새로 생서된게 바로 매칭이 되면 파괴하는 과정
-            yield return new WaitForSeconds(.5f);
-            DestroyMatches();
+    public void DestroyAll()
+    {
+        if(currentState == GameState.move)
+        {
+            for(int i = 0; i < width; ++i)
+            {
+                for(int j = 0; j<height; ++j)
+                {
+                    Destroy(puzzleBoard[i, j]);
+                    puzzleBoard[i, j] = null;
+                    //currentState = GameState.wait;
+                }
+            }
+            StartCoroutine(FillBoardCo());
         }
-        yield return new WaitForSeconds(.5f);
-        currentState = GameState.move;
     }
 }

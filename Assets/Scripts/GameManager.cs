@@ -31,8 +31,7 @@ public class GameManager : MonoBehaviour
 
     private NewBoard board;
     public float comboTime = 3.0f;
-
-    public enum QueueState
+        public enum QueueState
     {
         empty,
         full
@@ -72,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    private void TimeIsUp(){
+    private void TimeIsUp(){ //제한시간 종료
         if(score > bestScore){
             PlayerPrefs.SetInt("BestScore", score);
         }
@@ -148,7 +147,7 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator CheckFormulaCo()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.8f);
         if(CheckFormula())
         {
             score += 500;
