@@ -11,6 +11,7 @@ public enum GameState{
 public class NewBoard : MonoBehaviour
 {
     public GameManager gameManager;
+    public AudioManager audioManager;
     public GameState currentState = GameState.move;
     public int height;
     public int width;
@@ -83,7 +84,8 @@ public class NewBoard : MonoBehaviour
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             if(findMatches.currentMatches.Count == 0) // 계산할 값(피연산자) 전달
             {
-                if(gameManager.curQState == GameManager.QueueState.empty && currentState == GameState.wait)
+                audioManager.PlayMatchedSound();
+                if(gameManager.curQState == GameManager.QueueState.empty && gameManager.isTuched)
                 {
                     gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
                     gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
@@ -114,7 +116,7 @@ public class NewBoard : MonoBehaviour
                 }
             }
         }
-        
+        gameManager.isTuched = false;
         StartCoroutine(DecreaseRowCo());
     }
     private IEnumerator DecreaseRowCo(){ //몇개를 채워야할지 파악하기

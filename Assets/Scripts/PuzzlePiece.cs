@@ -19,6 +19,7 @@ public class PuzzlePiece : MonoBehaviour
     public bool isMatched = false;
 
     public int number;
+    public GameManager gameManager;
     private FindMatches findMatches;
     private NewBoard board;
     private GameObject otherDot;
@@ -34,6 +35,7 @@ public class PuzzlePiece : MonoBehaviour
         cam = GameObject.Find("MainCamera").GetComponent<Camera>();
         board = FindObjectOfType<NewBoard>();
         findMatches = FindObjectOfType<FindMatches>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
@@ -115,6 +117,7 @@ public class PuzzlePiece : MonoBehaviour
         if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist){ 
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180/ Mathf.PI;
             MovePieces();
+            gameManager.isTuched = true;
             board.currentState = GameState.wait;
         }else{
             board.currentState = GameState.move;

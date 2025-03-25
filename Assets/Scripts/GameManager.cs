@@ -9,8 +9,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    public AudioManager audioManager;
     private float time = 60.0f;
     public bool isPlaying = false;
+    public bool isTuched = false;
     public TMP_Text timeTxt;                //시간
     public TMP_Text scoreTxt;               //실시간 점수
     public TMP_Text bestScoreTxt;           //최고점수
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
     private int bestScore;
     private int answer;
 
-    private NewBoard board;
+    public NewBoard board;
     public float comboTime = 3.0f;
         public enum QueueState
     {
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //int asdf = Enum.GetValues(typeof(Operators)).Length;
-        board = FindObjectOfType<NewBoard>();
+        //board = FindObjectOfType<NewBoard>();
         if (PlayerPrefs.HasKey("BestScore"))
         {
             // 최고 기록을 저장된 값으로 초기화
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
     {
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
+        audioManager.PlayBGM();
         board.SetUp(); 
         MakeFormula();
     }
@@ -150,7 +153,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.8f);
         if(CheckFormula())
         {
+            audioManager.PlayCorrectSound();
             score += 500;
+        }else{
+            audioManager.PlayWrongSound();
         }
         //numQueue.Clear();
         number2Txt.text = "_";
