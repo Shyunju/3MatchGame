@@ -1,5 +1,7 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
-
+using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 public class AudioManager : MonoBehaviour
 {
     public GameObject correctObj;
@@ -10,6 +12,9 @@ public class AudioManager : MonoBehaviour
     private AudioSource wrongSound;
     private AudioSource matchedSound;
     private AudioSource bgmSound;
+    public Sprite[] soundBtnImg;
+    public GameObject soundBtn;
+    private bool isMute = true;
 
     void Start()
     {
@@ -33,6 +38,15 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBGM()
     {
-        bgmSound.Play();
+        if(isMute)
+        {
+            bgmSound.Play();
+            soundBtn.GetComponent<Image>().sprite = soundBtnImg[0];
+            isMute = false;
+        }else{
+            bgmSound.Stop();
+            soundBtn.GetComponent<Image>().sprite = soundBtnImg[1];
+            isMute = true;
+        }
     }
 }
