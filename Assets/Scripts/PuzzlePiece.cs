@@ -21,7 +21,7 @@ public class PuzzlePiece : MonoBehaviour
     public int number;
     public GameManager gameManager;
     private FindMatches findMatches;
-    private NewBoard board;
+    private Board board;
     private GameObject otherDot;
     private Vector3 firstTouchPosition;
     private Vector3 finalTouchPosition;
@@ -33,7 +33,7 @@ public class PuzzlePiece : MonoBehaviour
     private void Start()
     {
         cam = GameObject.Find("MainCamera").GetComponent<Camera>();
-        board = FindObjectOfType<NewBoard>();
+        board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
         gameManager = FindObjectOfType<GameManager>();
     }

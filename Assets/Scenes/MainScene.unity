@@ -966,7 +966,7 @@ MonoBehaviour:
   gameStartBoard: {fileID: 1762942962}
   inGameCanvas: {fileID: 1105799234}
   score: 0
-  board: {fileID: 1726181479}
+  board: {fileID: 1726181481}
   comboTime: 3
   curQState: 0
 --- !u!4 &731037291
@@ -1659,7 +1659,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1726181479}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NewBoard, Assembly-CSharp
         m_MethodName: DestroyAll
         m_Mode: 1
@@ -3061,7 +3061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1726181480}
-  - component: {fileID: 1726181479}
+  - component: {fileID: 1726181481}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -3069,35 +3069,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1726181479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726181478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 831ea0b566a7b4cae9a9e36b3b4e712e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 731037290}
-  audioManager: {fileID: 1865231004}
-  currentState: 1
-  height: 12
-  width: 8
-  offSet: 8
-  tilePrefab: {fileID: 1555580533481224165, guid: 67ca1816bfb5a458b81e7d210dbb6791, type: 3}
-  dots:
-  - {fileID: 1419832393258213659, guid: badfffb7f53a84f0db854ae26d866da4, type: 3}
-  - {fileID: 6763515991717262849, guid: 80ed8cd2e5e5247e59cb9cec1c52f2fd, type: 3}
-  - {fileID: 7189377907694167485, guid: 5d7ea56e66cfc414a9cc37b322d87a17, type: 3}
-  - {fileID: 7942346669823457875, guid: 7db3cbd799d444b59a34bab2432a37b5, type: 3}
-  - {fileID: 4883406456607738215, guid: cc5b05e8fe15a4908b5b4f1c3f6bfa65, type: 3}
-  - {fileID: 8608155623504810382, guid: 725e4cda1fc444ba09bb95b3e0c57c8c, type: 3}
-  - {fileID: 5876422568089304502, guid: 0b42d1e84503343eb922f64a7accaa96, type: 3}
-  - {fileID: 4883406456607738215, guid: cc5b05e8fe15a4908b5b4f1c3f6bfa65, type: 3}
-  - {fileID: 1730223289764663602, guid: 0c313d9c6cf00422d9dbed7fb5dda7b6, type: 3}
 --- !u!4 &1726181480
 Transform:
   m_ObjectHideFlags: 0
@@ -3113,6 +3084,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1726181481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726181478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e9af5c1e23f4d68b3b639a3a087455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 731037290}
+  audioManager: {fileID: 1865231004}
+  currentState: 1
+  height: 12
+  width: 8
+  offSet: 8
+  tilePrefab: {fileID: 1555580533481224165, guid: 67ca1816bfb5a458b81e7d210dbb6791, type: 3}
+  dots:
+  - {fileID: 1419832393258213659, guid: badfffb7f53a84f0db854ae26d866da4, type: 3}
+  - {fileID: 6763515991717262849, guid: 80ed8cd2e5e5247e59cb9cec1c52f2fd, type: 3}
+  - {fileID: 5876422568089304502, guid: 0b42d1e84503343eb922f64a7accaa96, type: 3}
+  - {fileID: 5931149968764930010, guid: 837c3d95ae55e43778e94513f0ff6382, type: 3}
+  - {fileID: 1730223289764663602, guid: 0c313d9c6cf00422d9dbed7fb5dda7b6, type: 3}
+  - {fileID: 4883406456607738215, guid: cc5b05e8fe15a4908b5b4f1c3f6bfa65, type: 3}
+  - {fileID: 7189377907694167485, guid: 5d7ea56e66cfc414a9cc37b322d87a17, type: 3}
+  - {fileID: 7942346669823457875, guid: 7db3cbd799d444b59a34bab2432a37b5, type: 3}
+  - {fileID: 8608155623504810382, guid: 725e4cda1fc444ba09bb95b3e0c57c8c, type: 3}
 --- !u!1 &1739096679
 GameObject:
   m_ObjectHideFlags: 0

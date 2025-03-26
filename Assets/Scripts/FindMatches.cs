@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class FindMatches : MonoBehaviour
 {
-    private NewBoard board;
+    private Board board;
     private GameManager gameManager;
     public List<GameObject> currentMatches = new List<GameObject>();
     void Start()
     {
-        board = FindObjectOfType<NewBoard>();   
+        board = FindObjectOfType<Board>();   
     }
     public void FindAllMatches(){
         StartCoroutine(FindAllMatchesCo());

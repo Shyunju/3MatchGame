@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private int bestScore;
     private int answer;
 
-    public NewBoard board;
+    public Board board;
     public float comboTime = 3.0f;
         public enum QueueState
     {
