@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    private static GameManager gameManager;
     public AudioManager audioManager;
     private float time = 60.0f;
     public bool isPlaying = false;
@@ -40,6 +41,17 @@ public class GameManager : MonoBehaviour
         full
     }
     public QueueState curQState = QueueState.empty;
+    private GameManager()
+    {
+    }
+    public static GameManager GetGameManager()
+    {
+        if (gameManager == null)
+        {
+            gameManager = new GameManager();
+        }
+        return gameManager;
+    }
     void Start()
     {
         //int asdf = Enum.GetValues(typeof(Operators)).Length;
