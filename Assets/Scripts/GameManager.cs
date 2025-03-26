@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverBoard;        //제한시간이 끝난후
     public GameObject gameStartBoard;       //게임 시작 전
     public GameObject inGameCanvas;         //게임 진행 중
+    public GameObject pauseBoard;           //게임 일시정지
     public int score;
     public Queue<int> numQueue = new Queue<int>();      //피연산자 큐
     private int[] operatorArr = new int[2];             //연산자 배열
@@ -204,6 +205,18 @@ public class GameManager : MonoBehaviour
         }
         return false;
         
+    }
+
+    public void PauseGame()
+    {
+        if(isPlaying){
+            isPlaying = false;
+            pauseBoard.SetActive(true);
+        }else{
+            pauseBoard.SetActive(false);
+            isPlaying = true;
+        }
+
     }
     
     
