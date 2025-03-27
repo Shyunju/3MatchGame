@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
                 comboTime -= Time.deltaTime;
             }
             time -= Time.deltaTime;
-            timeTxt.text = "Time : " + time.ToString("N2");
-            scoreTxt.text = "Score : " + score.ToString();
+            timeTxt.text = time.ToString("N2");
+            scoreTxt.text = score.ToString();
 
         }
         
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                 operatorTxt.text = "-";
                 break;
             case 3:
-                operatorTxt.text = "*";
+                operatorTxt.text = "x";
                 break;
             case 4:
                 operatorTxt.text = "%";
