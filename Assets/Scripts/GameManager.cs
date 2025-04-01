@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
+    [SerializeField]
+    private GameObject bestImage;
 
     public Board board;
     public float comboTime = 3.0f;
@@ -86,9 +88,12 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    private void TimeIsUp(){ //제한시간 종료
+    private void TimeIsUp() //제한시간 종료
+    {
+        audioManager.PlayBGM();
         if(score > bestScore){
             PlayerPrefs.SetInt("BestScore", score);
+            bestImage.SetActive(true);
         }
         currentScoreTxt.text = "score : " + score.ToString();
         bestScoreTxt.text = "best : " + bestScore.ToString();
@@ -228,6 +233,7 @@ public class GameManager : MonoBehaviour
             pauseBoard.SetActive(false);
             isPlaying = true;
         }
+        audioManager.PlayBGM();
 
     }
     

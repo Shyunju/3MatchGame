@@ -20,7 +20,6 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
 
         // Disable the button until the ad is ready to show:
         _showAdButton.interactable = false;
-        Debug.Log("false");
     }
  
     // Call this public method when you want to get an ad ready to show.
@@ -42,7 +41,6 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
             _showAdButton.onClick.AddListener(ShowAd);
             // Enable the button for users to click:
             _showAdButton.interactable = true;
-            Debug.Log("true");
         }
     }
  
@@ -51,7 +49,6 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     {
         // Disable the button:
         _showAdButton.interactable = false;
-        Debug.Log("false");
         // Then show the ad:
         Advertisement.Show(_adUnitId, this);
     }
