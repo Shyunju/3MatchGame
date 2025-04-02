@@ -32,8 +32,9 @@ public class GameManager : MonoBehaviour
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
-    [SerializeField]
-    private GameObject bestImage;
+    private bool isShowingHowToBoard = false;
+    [SerializeField] private GameObject howToBoard;
+    [SerializeField] private GameObject bestImage;
 
     public Board board;
     public float comboTime = 3.0f;
@@ -235,6 +236,16 @@ public class GameManager : MonoBehaviour
         }
         audioManager.PlayBGM();
 
+    }
+    public void ShowHowToBoard()
+    {
+        if(isShowingHowToBoard)
+        {
+            isShowingHowToBoard = false;
+        }else{
+            isShowingHowToBoard = true;
+        }
+        howToBoard.SetActive(isShowingHowToBoard);
     }
     
     
