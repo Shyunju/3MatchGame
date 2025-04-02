@@ -1,44 +1,46 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-//using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject cam;
+    public GameObject Cam {get { return cam;} }
     private static GameManager gameManager;
-    public AudioManager audioManager;
-    private float time = 60.0f;
-    public bool isPlaying = false;
-    public bool isTuched = false;
-    public TMP_Text timeTxt;                //시간
-    public TMP_Text scoreTxt;               //실시간 점수
-    public TMP_Text bestScoreTxt;           //최고점수
-    public TMP_Text number1Txt;             //피연산자1
-    public TMP_Text number2Txt;             //피연산자2
-    public TMP_Text operatorTxt;            //연산자
-    public TMP_Text answerTxt;              //비교될 값
-    public TMP_Text comparatorTxt;          //비교연산자
-    public TMP_Text currentScoreTxt;        //현재점수
-    public GameObject gameOverBoard;        //제한시간이 끝난후
-    public GameObject gameStartBoard;       //게임 시작 전
-    public GameObject inGameCanvas;         //게임 진행 중
-    public GameObject pauseBoard;           //게임 일시정지
-    public int score;
-    public Queue<int> numQueue = new Queue<int>();      //피연산자 큐
+    [SerializeField] AudioManager audioManager;
+    [SerializeField] private float time = 60.0f;
+    [SerializeField] bool isPlaying = false;
+    public bool IsPlaying {get{return isPlaying;} set{isPlaying = value;}}
+    [SerializeField] bool isTuched = false;
+    public bool IsTuched {get{return isTuched;} set{isTuched = value;}}
+    [SerializeField] TMP_Text timeTxt;                //시간
+    [SerializeField] TMP_Text scoreTxt;               //실시간 점수
+    [SerializeField] TMP_Text bestScoreTxt;           //최고점수
+    [SerializeField] TMP_Text number1Txt;             //피연산자1
+    [SerializeField] TMP_Text number2Txt;             //피연산자2
+    [SerializeField] TMP_Text operatorTxt;            //연산자
+    [SerializeField] TMP_Text answerTxt;              //비교될 값
+    [SerializeField] TMP_Text comparatorTxt;          //비교연산자
+    [SerializeField] TMP_Text currentScoreTxt;        //현재점수
+    [SerializeField] GameObject gameOverBoard;        //제한시간이 끝난후
+    [SerializeField] GameObject gameStartBoard;       //게임 시작 전
+    [SerializeField] GameObject inGameCanvas;         //게임 진행 중
+    [SerializeField] GameObject pauseBoard;           //게임 일시정지
+    [SerializeField] private int score;
+    [SerializeField] Queue<int> numQueue = new Queue<int>();      //피연산자 큐
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
+    private int successScore;
     private bool isShowingHowToBoard = false;
     [SerializeField] private GameObject howToBoard;
     [SerializeField] private GameObject bestImage;
 
     public Board board;
-    public float comboTime = 3.0f;
-        public enum QueueState
+    [SerializeField] float comboTime = 3.0f;
+    public float ComboTime { get { return comboTime; } }
+    public enum QueueState
     {
         empty,
         full
@@ -57,8 +59,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        //int asdf = Enum.GetValues(typeof(Operators)).Length;
-        //board = FindObjectOfType<NewBoard>();
         if (PlayerPrefs.HasKey("BestScore"))
         {
             // 최고 기록을 저장된 값으로 초기화
@@ -75,29 +75,35 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if(isPlaying){
-            if(time <= 0.0f){
-                isPlaying = false;
-                TimeIsUp();
-            }
             if(comboTime >= 0.0f){
                 comboTime -= Time.deltaTime;
             }
             time -= Time.deltaTime;
             timeTxt.text = time.ToString("N2");
             scoreTxt.text = score.ToString();
+            if(time <= 0.0f){
+                isPlaying = false;
+                TimeIsUp();
+            }
 
         }
         
+    }
+    public void ChaingeScore(int num)
+    {
+        score += num;
     }
     private void TimeIsUp() //제한시간 종료
     {
         audioManager.PlayBGM();
         if(score > bestScore){
+            audioManager.NewRecord();
             PlayerPrefs.SetInt("BestScore", score);
             bestImage.SetActive(true);
         }
-        currentScoreTxt.text = "score : " + score.ToString();
-        bestScoreTxt.text = "best : " + bestScore.ToString();
+        audioManager.PlayMatchedSound();
+        currentScoreTxt.text = score.ToString();
+        bestScoreTxt.text = bestScore.ToString();
         gameOverBoard.SetActive(true);
         Time.timeScale = 0.0f;
         board.currentState = GameState.wait;
@@ -158,6 +164,7 @@ public class GameManager : MonoBehaviour
     }
     public void FillNumberText(int num)
     {
+        numQueue.Enqueue(num);
         if(numQueue.Count == 1)
         {
             number1Txt.text = num.ToString();
@@ -173,7 +180,7 @@ public class GameManager : MonoBehaviour
         if(CheckFormula())
         {
             audioManager.PlayCorrectSound();
-            score += 500;
+            ChaingeScore(successScore);
         }else{
             audioManager.PlayWrongSound();
         }
@@ -228,9 +235,11 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         if(isPlaying){
+            board.currentState = GameState.wait;
             isPlaying = false;
             pauseBoard.SetActive(true);
         }else{
+            board.currentState = GameState.move;
             pauseBoard.SetActive(false);
             isPlaying = true;
         }

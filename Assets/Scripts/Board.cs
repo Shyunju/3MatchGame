@@ -1,8 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using System.Collections;
-using System.Text.RegularExpressions;
 
 public enum GameState{
     wait,
@@ -10,28 +7,34 @@ public enum GameState{
 }
 public class Board : MonoBehaviour
 {
-    public GameManager gameManager;
-    public AudioManager audioManager;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] AudioManager audioManager;
+    [SerializeField] FindMatches findMatches;
     public GameState currentState = GameState.move;
-    public int height;
-    public int width;
-    public int offSet;
-    public GameObject tilePrefab;
-    public GameObject[] dots;                                           //생성가능한 퍼즐 종류
+    [SerializeField] int height;
+    public int Height { get { return height; } }
+    [SerializeField] int width;
+    public int Width { get { return width; } }
+    [SerializeField] int offSet;
+    [SerializeField] GameObject tilePrefab;
+    [SerializeField] GameObject[] dots;                                 //생성가능한 퍼즐 종류
     private BackgroundTile[,] allTiles;                                 //보드 기판
-    public GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
-    private FindMatches findMatches;
+    GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
+    private int basicScore = 10;
+    private int comboScore = 20;
 
+    public GameObject[,] PuzzleBoard { get {return puzzleBoard;}}                                   //실제 오브젝트가 들어있는 배열 
+    
     void Start()
     {
-        findMatches = FindObjectOfType<FindMatches>();
+        //findMatches = FindObjectOfType<FindMatches>();
         puzzleBoard = new GameObject[width,height];
         allTiles = new BackgroundTile[width, height];
     }
 
     public void SetUp()
     {
-        gameManager.GetComponent<GameManager>().isPlaying = true;
+        gameManager.GetComponent<GameManager>().IsPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
                 Vector2 tempPosition = new Vector2(i,j + offSet);
@@ -47,8 +50,8 @@ public class Board : MonoBehaviour
                 }
                 //maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
-                dot.GetComponent<PuzzlePiece>().row = j;
-                dot.GetComponent<PuzzlePiece>().column = i;
+                dot.GetComponent<PuzzlePiece>().Row = j;
+                dot.GetComponent<PuzzlePiece>().Column = i;
                 puzzleBoard[i,j] = dot;
                 dot.transform.parent = this.transform;
             }
@@ -80,15 +83,15 @@ public class Board : MonoBehaviour
     }
    private void DestroyMatchesAt(int column, int row) //좌표 받아서 매칭이 성공한 퍼즐이라면 파괴하고 배열에서 null처리
     {
-        if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().isMatched) {
+        if (puzzleBoard[column,row].GetComponent<PuzzlePiece>().IsMatched) {
             findMatches.currentMatches.Remove(puzzleBoard[column,row]);
             if(findMatches.currentMatches.Count == 0) // 계산할 값(피연산자) 전달
             {
                 audioManager.PlayMatchedSound();
-                if(gameManager.curQState == GameManager.QueueState.empty && gameManager.isTuched)
+                if(gameManager.curQState == GameManager.QueueState.empty && gameManager.IsTuched)
                 {
-                    gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
-                    gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().number);
+                    //gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);
+                    gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);
                 }
             }
             Destroy(puzzleBoard[column, row]);
@@ -96,10 +99,10 @@ public class Board : MonoBehaviour
 
             if(currentState == GameState.wait)
             {
-                if(gameManager.comboTime > 0.0f){
-                    gameManager.score += 200;
+                if(gameManager.ComboTime > 0.0f){
+                    gameManager.ChaingeScore(comboScore);
                 }else
-                    gameManager.score += 100;
+                    gameManager.ChaingeScore(basicScore);
             }
 
         }
@@ -116,7 +119,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        gameManager.isTuched = false;
+        gameManager.IsTuched = false;
         StartCoroutine(DecreaseRowCo());
     }
     private IEnumerator DecreaseRowCo(){ //몇개를 채워야할지 파악하기
@@ -126,7 +129,7 @@ public class Board : MonoBehaviour
                 if(puzzleBoard[i,j] == null){
                     nullCount++;
                 }else if(nullCount > 0){
-                    puzzleBoard[i,j].GetComponent<PuzzlePiece>().row -= nullCount;
+                    puzzleBoard[i,j].GetComponent<PuzzlePiece>().Row -= nullCount;
                     puzzleBoard[i,j] = null;
                 }
             }
@@ -154,8 +157,8 @@ public class Board : MonoBehaviour
                     int dotToUse =  Random.Range(0, dots.Length);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity) as GameObject;
                     puzzleBoard[i,j] = piece;
-                    piece.GetComponent<PuzzlePiece>().row = j;
-                    piece.GetComponent<PuzzlePiece>().column = i;
+                    piece.GetComponent<PuzzlePiece>().Row = j;
+                    piece.GetComponent<PuzzlePiece>().Column = i;
                     piece.transform.parent = this.transform;
 
                 }
@@ -166,7 +169,7 @@ public class Board : MonoBehaviour
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
                 if(puzzleBoard[i,j] != null){
-                    if(puzzleBoard[i,j].GetComponent<PuzzlePiece>().isMatched){
+                    if(puzzleBoard[i,j].GetComponent<PuzzlePiece>().IsMatched){
                         return true;
                     }
                 }
