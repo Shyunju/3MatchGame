@@ -3,6 +3,12 @@
     "displayName": "Unity Package",
     "packageURL": "https://github.com/ironsource-mobile/Unity-sdk/raw/master/${VERSION}/UnityLevelPlay_v${VERSION}.unitypackage",
     "versions": {
+      "8.8.1": {
+        "ironSourceSdkVersion": "[8.7.0, 9.0["
+      },
+      "8.8.0": {
+        "ironSourceSdkVersion": "[8.7.0, 9.0["
+      },
       "8.7.0": {
         "ironSourceSdkVersion": "[8.7.0, 9.0["
       },
@@ -575,6 +581,13 @@
       "dependencyXmlFileName": "ISCSJAdapterDependencies.xml",
       "SKAdNetworkIdXmlURL": "https://s3.amazonaws.com/ssa.public/Unity/SKAdNetwork-IDs/All/skadnetworks.csj.plist.xml",
       "versions": {
+        "4.3.13.0": {
+          "ironSourceSdkVersion": "[8.4.0, 9.0[",
+          "ios": {
+            "adapterVersion": "4.3.13.0",
+            "adNetworkVersion": "6.7.1.6"
+          }
+        },
         "4.3.12.0": {
           "ironSourceSdkVersion": "[8.4.0, 9.0[",
           "ios": {
@@ -1201,6 +1214,17 @@
       "dependencyXmlFileName": "ISMintegralAdapterDependencies.xml",
       "SKAdNetworkIdXmlURL": "https://s3.amazonaws.com/ssa.public/Unity/SKAdNetwork-IDs/All/skadnetworks.mintegral.plist.xml",
       "versions": {
+        "4.3.42.0": {
+          "ironSourceSdkVersion": "[8.4.0, 9.0[",
+          "android": {
+            "adapterVersion": "4.3.38",
+            "adNetworkVersion": "16.9.61"
+          },
+          "ios": {
+            "adapterVersion": "4.3.33.0",
+            "adNetworkVersion": "7.7.7"
+          }
+        },
         "4.3.41.0": {
           "ironSourceSdkVersion": "[8.4.0, 9.0[",
           "android": {
@@ -2031,6 +2055,17 @@
       "dependencyXmlFileName": "ISMyTargetAdapterDependencies.xml",
       "SKAdNetworkIdXmlURL": "https://s3.amazonaws.com/ssa.public/Unity/SKAdNetwork-IDs/All/skadnetworks.mytarget.plist.xml",
       "versions": {
+        "4.1.34.0": {
+          "ironSourceSdkVersion": "[8.4.0, 9.0[",
+          "android": {
+            "adapterVersion": "4.1.21",
+            "adNetworkVersion": "5.27.1"
+          },
+          "ios": {
+            "adapterVersion": "4.1.31.0",
+            "adNetworkVersion": "5.29.0"
+          }
+        },
         "4.1.33.0": {
           "ironSourceSdkVersion": "[8.4.0, 9.0[",
           "android": {
@@ -2128,6 +2163,17 @@
       "SKAdNetworkIdXmlURL": "https://s3.amazonaws.com/ssa.public/Unity/SKAdNetwork-IDs/All/skadnetworks.yandex.plist.xml",
       "isNew": true,
       "versions": {
+        "4.3.16.0": {
+          "ironSourceSdkVersion": "[8.4.0, 9.0[",
+          "android": {
+            "adapterVersion": "4.3.8",
+            "adNetworkVersion": "7.8.1"
+          },
+          "ios": {
+            "adapterVersion": "4.3.15.0",
+            "adNetworkVersion": "7.12.0"
+          }
+        },
         "4.3.15.0": {
           "ironSourceSdkVersion": "[8.4.0, 9.0[",
           "android": {
