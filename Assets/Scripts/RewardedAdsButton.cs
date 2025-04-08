@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     [SerializeField] Button _showAdButton;
-    [SerializeField] string _androidAdUnitId = "Rewarded_Android";
+    [SerializeField] string _androidAdUnitId = "ca-app-pub-4556004795553060~9686129778";
     [SerializeField] string _iOSAdUnitId = "Rewarded_iOS";
     string _adUnitId = null; // This will remain null for unsupported platforms
  

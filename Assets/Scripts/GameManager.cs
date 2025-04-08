@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
-    private int successScore;
+    [SerializeField] private int successScore;
     private bool isShowingHowToBoard = false;
     [SerializeField] private GameObject howToBoard;
     [SerializeField] private GameObject bestImage;
