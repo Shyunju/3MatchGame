@@ -1158,7 +1158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &211368109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2196,7 +2196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 69896893}
   audioManager: {fileID: 1865231004}
-  time: 30
+  time: 60
   isPlaying: 0
   isTuched: 0
   timeTxt: {fileID: 1923711566}

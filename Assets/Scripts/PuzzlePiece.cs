@@ -102,7 +102,10 @@ public class PuzzlePiece : MonoBehaviour
     private void OnMouseDown()
     {
         if(board.currentState == GameState.move)
-            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));  //모바일 주의(?)
+            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
+
+        //Touch touch = Input.GetTouch(0);
+        //firstTouchPosition = touch.position;
 
     }
     private void OnMouseUp()
