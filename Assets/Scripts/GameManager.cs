@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
+        Debug.Log("asd");
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.PlayBGM();
