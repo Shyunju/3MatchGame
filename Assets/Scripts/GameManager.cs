@@ -57,6 +57,10 @@ public class GameManager : MonoBehaviour
         }
         return gameManager;
     }
+    private void Awake()
+    {
+        Screen.SetResolution(750, 1334, true);
+    }
     void Start()
     {
         if (PlayerPrefs.HasKey("BestScore"))
