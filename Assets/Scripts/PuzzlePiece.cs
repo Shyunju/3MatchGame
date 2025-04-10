@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
-public class PuzzlePiece : MonoBehaviour
+public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    
     //고유의의 값을 져 색을 판별한다.
     //상하좌우의 퍼즐들의 값이 같으면 파괴한다. 배열에 값을 전달할까?
     [Header("Board Variables")]
@@ -25,11 +28,16 @@ public class PuzzlePiece : MonoBehaviour
     private Board board;
     private GameObject otherDot;
     private Vector3 firstTouchPosition;
+    public Vector3 FirstTouchPosition { get { return firstTouchPosition; } set { firstTouchPosition = value; } }
+
     private Vector3 finalTouchPosition;
+    public Vector3 FinalTouchPosition { get { return finalTouchPosition; } set { finalTouchPosition = value; } }
     [SerializeField] float swipeAngle = 0;
     [SerializeField] float swipeResist = .3f;
     private Camera cam;
     private Vector3 tempPositon;
+
+    private bool isPressed = false;
 
     private void Start()
     {
@@ -99,24 +107,8 @@ public class PuzzlePiece : MonoBehaviour
         }
 
     }
-    private void OnMouseDown()
-    {
-        if(board.currentState == GameState.move)
-            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
 
-        //Touch touch = Input.GetTouch(0);
-        //firstTouchPosition = touch.position;
-
-    }
-    private void OnMouseUp()
-    {
-        if(board.currentState == GameState.move){
-            finalTouchPosition = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
-            CalculateAngle();
-        }
-    }
-
-    void CalculateAngle() //터치 유효검사
+    public void CalculateAngle() //터치 유효검사
     {
         if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist){ 
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180/ Mathf.PI;
@@ -195,6 +187,38 @@ public class PuzzlePiece : MonoBehaviour
         }
     }
 
+
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    
+    //}
+
     
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (board.currentState == GameState.move)
+        {
+            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
+        }
+    }
+
+    
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (board.currentState == GameState.move)
+        {
+            finalTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
+            isPressed = true;
+            CalculateAngle();
+        }
+    }
+
+   
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        isPressed = true;
+    }
 }

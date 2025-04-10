@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject howToBoard;
     [SerializeField] private GameObject bestImage;
 
-    public Board board;
+    [SerializeField] private Board board;
     [SerializeField] float comboTime = 3.0f;
     public float ComboTime { get { return comboTime; } }
     public enum QueueState
@@ -78,14 +80,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(isPlaying){
-            if(comboTime >= 0.0f){
+        if (isPlaying) {
+            if (comboTime >= 0.0f) {
                 comboTime -= Time.deltaTime;
             }
             time -= Time.deltaTime;
             timeTxt.text = time.ToString("N2");
             scoreTxt.text = score.ToString();
-            if(time <= 0.0f){
+            if (time <= 0.0f) {
                 isPlaying = false;
                 TimeIsUp();
             }
@@ -120,7 +122,6 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        Debug.Log("asd");
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.PlayBGM();

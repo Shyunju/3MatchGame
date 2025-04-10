@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8189195420570117891}
   - component: {fileID: 7733148164293622891}
   - component: {fileID: -6299236450116597387}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Yellow
   m_TagString: YellowDot
   m_Icon: {fileID: 0}
@@ -109,7 +109,6 @@ MonoBehaviour:
   targetY: 0
   isMatched: 0
   number: 9
-  gameManager: {fileID: 0}
   swipeAngle: 0
   swipeResist: 1
 --- !u!58 &-6299236450116597387
