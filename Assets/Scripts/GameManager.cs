@@ -244,12 +244,13 @@ public class GameManager : MonoBehaviour
             board.currentState = GameState.wait;
             isPlaying = false;
             pauseBoard.SetActive(true);
+            audioManager.StopBGM();
         }else{
             board.currentState = GameState.move;
             pauseBoard.SetActive(false);
             isPlaying = true;
+            audioManager.PlayBGM();
         }
-        audioManager.PlayBGM();
 
     }
     public void ShowHowToBoard()

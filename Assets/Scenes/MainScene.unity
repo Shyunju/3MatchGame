@@ -7602,7 +7602,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1865231004}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: PlayBGM
+        m_MethodName: PressMuteButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

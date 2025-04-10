@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource newRecordSound;
     public Sprite[] soundBtnImg;
     public GameObject soundBtn;
-    private bool isMute = true;
+    private bool isMute = false;
 
     void Start()
     {
@@ -39,19 +39,27 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBGM()
     {
-        if(isMute)
-        {
-            bgmSound.Play();
-            soundBtn.GetComponent<Image>().sprite = soundBtnImg[0];
-            isMute = false;
-        }else{
-            bgmSound.Stop();
-            soundBtn.GetComponent<Image>().sprite = soundBtnImg[1];
-            isMute = true;
-        }
+        bgmSound.Play();
+        soundBtn.GetComponent<Image>().sprite = soundBtnImg[0];
+    }
+    public void StopBGM()
+    {
+        bgmSound.Stop();
+        soundBtn.GetComponent<Image>().sprite = soundBtnImg[1];
     }
     public void NewRecord()
     {
         newRecordSound.Play();
+    }
+    public void PressMuteButton()
+    {
+        if(isMute)
+        {
+            StopBGM();
+        }
+        else
+        {
+            PlayBGM();
+        }
     }
 }
