@@ -2235,6 +2235,7 @@ MonoBehaviour:
   bestImage: {fileID: 57064555}
   board: {fileID: 1726181481}
   comboTime: 3
+  lerpValueTest: 0.3
   curQState: 0
 --- !u!4 &731037291
 Transform:
@@ -6651,6 +6652,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 171f03182c8c64e8f95c40adbaa66566, type: 3}
   - {fileID: 21300000, guid: 4062d0b3f3cbf4be3a1a82481f1f7526, type: 3}
   soundBtn: {fileID: 1300997812}
+  isMute: 0
 --- !u!1 &1868266610
 GameObject:
   m_ObjectHideFlags: 0

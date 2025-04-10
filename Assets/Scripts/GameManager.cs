@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Board board;
     [SerializeField] float comboTime = 3.0f;
+
+
+    public float lerpValueTest;
     public float ComboTime { get { return comboTime; } }
     public enum QueueState
     {

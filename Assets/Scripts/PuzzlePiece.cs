@@ -19,6 +19,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] int targetX;
     [SerializeField] int targetY;
     [SerializeField] bool isMatched = false;
+    [SerializeField] float lerpValue;
     public bool IsMatched {get {return isMatched;} set {isMatched = value;} }
 
     [SerializeField] private int number;
@@ -45,11 +46,12 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         findMatches = FindFirstObjectByType<FindMatches>();
         gameManager = FindFirstObjectByType<GameManager>();
         cam = gameManager.Cam.GetComponent<Camera>();
+        lerpValue = gameManager.lerpValueTest;
     }
 
     private void Update()
     {
-        FindMatches();
+        //FindMatches();
         if(isMatched){ //색 바꾸기
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(1f, 1f, 1f, .2f);
@@ -59,7 +61,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if(Mathf.Abs(targetX - transform.position.x) > .1)
         {
             tempPositon = new Vector3(targetX, transform.position.y, 10f);
-            transform.position = Vector3.Lerp(transform.position, tempPositon, .1f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
             if(board.PuzzleBoard[column,row] != this.gameObject){
                 board.PuzzleBoard[column,row]=  this.gameObject;
             }
@@ -73,7 +75,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (Mathf.Abs(targetY - transform.position.y) > .1)
         {
             tempPositon = new Vector3(transform.position.x, targetY, 10f);
-            transform.position = Vector3.Lerp(transform.position, tempPositon, .1f);
+            transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
             if(board.PuzzleBoard[column,row] != this.gameObject){
                 board.PuzzleBoard[column,row]=  this.gameObject;
             }
