@@ -19,7 +19,7 @@ public class FindMatches : MonoBehaviour
         for(int i = 0; i < board.Width; ++i){
             for(int j = 0; j < board.Height; ++j){
                 GameObject currentDot = board.PuzzleBoard[i,j];
-                if(currentDot != null){
+                if(currentDot != null && !currentDot.GetComponent<PuzzlePiece>().IsMatched){  //0410¼öÁ¤
                     if(i > 0 && i < board.Width-1){
                         GameObject leftDot = board.PuzzleBoard[i-1,j];
                         GameObject rightDot = board.PuzzleBoard[i+1,j];
