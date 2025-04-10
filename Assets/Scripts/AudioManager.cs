@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource newRecordSound;
     public Sprite[] soundBtnImg;
     public GameObject soundBtn;
-    private bool isMute = false;
+    [SerializeField] private bool isMute = false;
 
     void Start()
     {
@@ -53,13 +53,15 @@ public class AudioManager : MonoBehaviour
     }
     public void PressMuteButton()
     {
-        if(isMute)
+        if(!isMute)
         {
             StopBGM();
+            isMute = true;
         }
         else
         {
             PlayBGM();
+            isMute = false;
         }
     }
 }
