@@ -1,67 +1,62 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 using Image = UnityEngine.UI.Image;
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] GameObject correctObj;
-    [SerializeField] GameObject wrongObj;
-    [SerializeField] GameObject matchedObj;
     [SerializeField] GameObject bgmObj;
-    [SerializeField] GameObject newRecordObj;
-    private AudioSource correctSound;
-    private AudioSource wrongSound;
-    private AudioSource matchedSound;
+    [SerializeField] AudioClip[] audioClips;
     private AudioSource bgmSound;
-    private AudioSource newRecordSound;
     public Sprite[] soundBtnImg;
     public GameObject soundBtn;
-    [SerializeField] private bool isMute = false;
+
+    private AudioSource audioSource;
 
     void Start()
     {
-        correctSound = correctObj.GetComponent<AudioSource>();
-        wrongSound = wrongObj.GetComponent<AudioSource>();
-        matchedSound = matchedObj.GetComponent<AudioSource>();
         bgmSound = bgmObj.GetComponent<AudioSource>();
-        newRecordSound = newRecordObj.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
+    public void PlayMatchedSound()
+    {
+        audioSource.PlayOneShot(audioClips[0]);
+    }
     public void PlayCorrectSound()
     {
-        correctSound.Play();
+        audioSource.PlayOneShot(audioClips[1]);
     }
     public void PlayWrongSound()
     {
-        wrongSound.Play();
+        audioSource.PlayOneShot(audioClips[2]);
     }
-    public void PlayMatchedSound()
+    public void PlayNewRecordSound()
     {
-        matchedSound.Play();
+        audioSource.PlayOneShot(audioClips[3]);
     }
     public void PlayBGM()
     {
-        bgmSound.Play();
+        bgmSound.mute = false;
         soundBtn.GetComponent<Image>().sprite = soundBtnImg[0];
+        
     }
     public void StopBGM()
     {
-        bgmSound.Stop();
+        bgmSound.mute=true;
         soundBtn.GetComponent<Image>().sprite = soundBtnImg[1];
-    }
-    public void NewRecord()
-    {
-        newRecordSound.Play();
     }
     public void PressMuteButton()
     {
-        if(!isMute)
+        if(bgmSound.mute)
         {
-            StopBGM();
-            isMute = true;
+            PlayBGM();
         }
         else
         {
-            PlayBGM();
-            isMute = false;
+            StopBGM();
         }
+    }
+    public void GameMusicStart()
+    {
+        bgmSound.Play();
     }
 }

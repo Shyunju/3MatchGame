@@ -7,15 +7,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
+    private static GameManager gameManager;
     [SerializeField] GameObject cam;
     public GameObject Cam {get { return cam;} }
-    private static GameManager gameManager;
-    [SerializeField] AudioManager audioManager;
     [SerializeField] private float time = 60.0f;
     [SerializeField] bool isPlaying = false;
     public bool IsPlaying {get{return isPlaying;} set{isPlaying = value;}}
     [SerializeField] bool isTuched = false;
     public bool IsTuched {get{return isTuched;} set{isTuched = value;}}
+    [SerializeField] float comboTime = 3.0f;
+    public float ComboTime { get { return comboTime; } }
+    [SerializeField] AudioManager audioManager;
     [SerializeField] TMP_Text timeTxt;                //시간
     [SerializeField] TMP_Text scoreTxt;               //실시간 점수
     [SerializeField] TMP_Text bestScoreTxt;           //최고점수
@@ -31,20 +33,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject pauseBoard;           //게임 일시정지
     [SerializeField] private int score;
     [SerializeField] Queue<int> numQueue = new Queue<int>();      //피연산자 큐
+    [SerializeField] private int successScore;
+    [SerializeField] private GameObject howToBoard;
+    [SerializeField] private GameObject bestImage;
+    [SerializeField] private Board board;
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
-    [SerializeField] private int successScore;
     private bool isShowingHowToBoard = false;
-    [SerializeField] private GameObject howToBoard;
-    [SerializeField] private GameObject bestImage;
-
-    [SerializeField] private Board board;
-    [SerializeField] float comboTime = 3.0f;
-
-
     public float lerpValueTest;
-    public float ComboTime { get { return comboTime; } }
     public enum QueueState
     {
         empty,
@@ -83,20 +80,25 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isPlaying) {
-            if (comboTime >= 0.0f) {
+        CheckPlayTime();
+    }
+    void CheckPlayTime()
+    {
+        if (isPlaying)
+        {
+            if (comboTime >= 0.0f)
+            {
                 comboTime -= Time.deltaTime;
             }
             time -= Time.deltaTime;
             timeTxt.text = time.ToString("N2");
             scoreTxt.text = score.ToString();
-            if (time <= 0.0f) {
+            if (time <= 0.0f)
+            {
                 isPlaying = false;
                 TimeIsUp();
             }
-
         }
-        
     }
     public void ChaingeScore(int num)
     {
@@ -104,9 +106,9 @@ public class GameManager : MonoBehaviour
     }
     private void TimeIsUp() //제한시간 종료
     {
-        audioManager.PlayBGM();
+        audioManager.StopBGM();
         if(score > bestScore){
-            audioManager.NewRecord();
+            audioManager.PlayNewRecordSound();
             PlayerPrefs.SetInt("BestScore", score);
             bestImage.SetActive(true);
         }
@@ -121,13 +123,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
-
     public void GameStart()
     {
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
-        audioManager.PlayBGM();
+        audioManager.GameMusicStart();
         board.SetUp(); 
         MakeFormula();
     }

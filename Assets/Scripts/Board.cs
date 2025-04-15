@@ -23,7 +23,7 @@ public class Board : MonoBehaviour
     private int basicScore = 10;
     private int comboScore = 20;
 
-    public GameObject[,] PuzzleBoard { get {return puzzleBoard;}}                                   //실제 오브젝트가 들어있는 배열 
+    public GameObject[,] PuzzleBoard { get {return puzzleBoard;}}                                   
     
     void Start()
     {

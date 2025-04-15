@@ -4,7 +4,7 @@ using Vector3 = UnityEngine.Vector3;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     
     //고유의의 값을 져 색을 판별한다.
@@ -52,18 +52,30 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private void Update()
     {
         //FindMatches();
-        if(isMatched){ //색 바꾸기
+        ChaingeMatchedColor();
+        MoveToTargetPosition();
+
+
+    }
+    void ChaingeMatchedColor()
+    {
+        if (isMatched)
+        { //색 바꾸기
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(1f, 1f, 1f, .2f);
         }
-        targetX = column; 
+    }
+    void MoveToTargetPosition()
+    {
+        targetX = column;
         targetY = row;
-        if(Mathf.Abs(targetX - transform.position.x) > .1)
+        if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
             tempPositon = new Vector3(targetX, transform.position.y, 10f);
             transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
-            if(board.PuzzleBoard[column,row] != this.gameObject){
-                board.PuzzleBoard[column,row]=  this.gameObject;
+            if (board.PuzzleBoard[column, row] != this.gameObject)
+            {
+                board.PuzzleBoard[column, row] = this.gameObject;
             }
             findMatches.FindAllMatches();
         }
@@ -76,8 +88,9 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             tempPositon = new Vector3(transform.position.x, targetY, 10f);
             transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
-            if(board.PuzzleBoard[column,row] != this.gameObject){
-                board.PuzzleBoard[column,row]=  this.gameObject;
+            if (board.PuzzleBoard[column, row] != this.gameObject)
+            {
+                board.PuzzleBoard[column, row] = this.gameObject;
             }
             findMatches.FindAllMatches();
 
@@ -163,40 +176,32 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         StartCoroutine(CheckMoveCo()); //매칭확인 코루틴
 
     }
-    void FindMatches() //좌우상하 비교 
-    {
-        if(column > 0 && column < board.Width -1){
-            GameObject leftDot1 = board.PuzzleBoard[column-1, row];
-            GameObject rightDot1 = board.PuzzleBoard[column+1, row];
-            if(leftDot1 != null && rightDot1 != null){
-                if(leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag){
-                    leftDot1.GetComponent<PuzzlePiece>().isMatched = true;
-                    rightDot1.GetComponent<PuzzlePiece>().isMatched=true;
-                    isMatched = true;
-                }
-            }
-        }
-        if(row > 0 && row < board.Height -1){
-            GameObject upDot1 = board.PuzzleBoard[column, row +1];
-            GameObject downDot1 = board.PuzzleBoard[column, row -1];
-            if(upDot1 != null && downDot1 != null){
-                if(upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag){
-                    upDot1.GetComponent<PuzzlePiece>().isMatched = true;
-                    downDot1.GetComponent<PuzzlePiece>().isMatched=true;
-                    isMatched = true;
-                }
-            }
-        }
-    }
-
-
-    //public void OnPointerClick(PointerEventData eventData)
+    //void FindMatches() //좌우상하 비교 
     //{
-    //    
+    //    if(column > 0 && column < board.Width -1){
+    //        GameObject leftDot1 = board.PuzzleBoard[column-1, row];
+    //        GameObject rightDot1 = board.PuzzleBoard[column+1, row];
+    //        if(leftDot1 != null && rightDot1 != null){
+    //            if(leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag){
+    //                leftDot1.GetComponent<PuzzlePiece>().isMatched = true;
+    //                rightDot1.GetComponent<PuzzlePiece>().isMatched=true;
+    //                isMatched = true;
+    //            }
+    //        }
+    //    }
+    //    if(row > 0 && row < board.Height -1){
+    //        GameObject upDot1 = board.PuzzleBoard[column, row +1];
+    //        GameObject downDot1 = board.PuzzleBoard[column, row -1];
+    //        if(upDot1 != null && downDot1 != null){
+    //            if(upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag){
+    //                upDot1.GetComponent<PuzzlePiece>().isMatched = true;
+    //                downDot1.GetComponent<PuzzlePiece>().isMatched=true;
+    //                isMatched = true;
+    //            }
+    //        }
+    //    }
     //}
-
     
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (board.currentState == GameState.move)
@@ -212,12 +217,11 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (board.currentState == GameState.move)
         {
             finalTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
-            isPressed = true;
             CalculateAngle();
         }
     }
 
-   
+
 
     public void OnDrag(PointerEventData eventData)
     {
