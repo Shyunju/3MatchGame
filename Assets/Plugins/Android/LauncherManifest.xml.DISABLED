@@ -11,5 +11,7 @@
         android:anyDensity="true"/>
 
     <application android:label="@string/app_name"
-                 android:icon="@mipmap/app_icon"/>
+				 android:allowBackup="false" android:fullBackupContent="false"
+                 tools:replace="android:allowBackup"
+				 android:icon="@mipmap/app_icon"/>
 </manifest>
