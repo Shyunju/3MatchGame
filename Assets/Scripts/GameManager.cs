@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+
         if (PlayerPrefs.HasKey("BestScore"))
         {
             // 최고 기록을 저장된 값으로 초기화
@@ -125,13 +126,38 @@ public class GameManager : MonoBehaviour
     }
     public void GoToStartScreen()
     {
-        //LoadInterstitialAd();
-        //if(this._interstitialAd  != null)
-        //{
-        //    ShowInterstitialAd();
-        //}
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LoadInterstitialAd();
+        if (this._interstitialAd != null && this._interstitialAd.CanShowAd())      // 여기서 문제@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        {
+            Debug.Log("Interstitial Ad is ready. Showing now.");
+            ShowInterstitialAd();
+        }
+        else
+        {
+            Debug.LogWarning("Interstitial Ad is not ready yet.");
+            // 사용자에게 안내 메시지 표시 (예: 토스트, 팝업 등)
+            ShowToast("광고를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+            // 필요하다면 광고를 다시 로드
+            LoadInterstitialAd();
+        }
 
+
+    }
+    public void ShowToast(string message)   //4월 17일 추가
+    {
+#if UNITY_ANDROID
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        currentActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+        {
+            AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+            AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+            AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
+            AndroidJavaObject toast = toastClass.CallStatic<AndroidJavaObject>(
+                "makeText", context, javaString, toastClass.GetStatic<int>("LENGTH_SHORT"));
+            toast.Call("show");
+        }));
+#endif
     }
     public void GameStart()
     {
@@ -330,7 +356,6 @@ public class GameManager : MonoBehaviour
     {
         if (_interstitialAd != null && _interstitialAd.CanShowAd())
         {
-            //Debug.Log("Showing interstitial ad.");
             _interstitialAd.Show();
         }
         else
@@ -342,12 +367,18 @@ public class GameManager : MonoBehaviour
     {
         interstitialAd.OnAdFullScreenContentClosed += () =>
         {
-           // Debug.Log("Interstitial ad full screen content closed.");
+            // Debug.Log("Interstitial ad full screen content closed.");
             // 원하는 동작 실행
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             // 예: 게임 재개, 보상 지급, 광고 재로딩 등
             LoadInterstitialAd(); // 광고 다시 로드
         };
-        // ... (나머지 이벤트 핸들러는 참고용)
+
+        interstitialAd.OnAdFullScreenContentFailed += (AdError error) =>
+        {
+            Debug.LogError("Interstitial ad failed to open full screen content with error : " + error);
+            LoadInterstitialAd();
+        };
     }
 
 
