@@ -125,12 +125,13 @@ public class GameManager : MonoBehaviour
     }
     public void GoToStartScreen()
     {
-        LoadInterstitialAd();
-        if(this._interstitialAd  != null)
-        {
-            ShowInterstitialAd();
-        }
-        
+        //LoadInterstitialAd();
+        //if(this._interstitialAd  != null)
+        //{
+        //    ShowInterstitialAd();
+        //}
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
     }
     public void GameStart()
     {
@@ -344,7 +345,6 @@ public class GameManager : MonoBehaviour
            // Debug.Log("Interstitial ad full screen content closed.");
             // 원하는 동작 실행
             // 예: 게임 재개, 보상 지급, 광고 재로딩 등
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             LoadInterstitialAd(); // 광고 다시 로드
         };
         // ... (나머지 이벤트 핸들러는 참고용)

@@ -2181,7 +2181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 69896893}
-  time: 2
+  time: 60
   isPlaying: 0
   isTuched: 0
   comboTime: 3
