@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     private int bestScore;
     private int answer;
     private bool isShowingHowToBoard = false;
+
+    private int retryCount = 0;
+    private const int MAX_RETRY = 3;
     public float lerpValueTest;
     public enum QueueState
     {
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        LoadInterstitialAd();            //@@@@@@@@@@@@@@@@@@0422fixing( GoToStartScreen to here)@@@@@@@@@
 
         if (PlayerPrefs.HasKey("BestScore"))
         {
@@ -126,19 +130,29 @@ public class GameManager : MonoBehaviour
     }
     public void GoToStartScreen()
     {
-        LoadInterstitialAd();
         if (this._interstitialAd != null && this._interstitialAd.CanShowAd())      // 여기서 문제@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         {
             Debug.Log("Interstitial Ad is ready. Showing now.");
             ShowInterstitialAd();
+            retryCount = 0;
         }
         else
         {
             Debug.LogWarning("Interstitial Ad is not ready yet.");
-            // 사용자에게 안내 메시지 표시 (예: 토스트, 팝업 등)
             ShowToast("광고를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
-            // 필요하다면 광고를 다시 로드
-            LoadInterstitialAd();
+
+            // 재시도 제한
+            if (retryCount < MAX_RETRY)
+            {
+                retryCount++;
+                // 5초 후에 다시 광고 로드 시도
+                Invoke(nameof(LoadInterstitialAd), 5f);
+            }
+            else
+            {
+                Debug.LogWarning("광고 재시도 횟수 초과");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
 
 
