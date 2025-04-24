@@ -54,8 +54,6 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         //FindMatches();
         ChaingeMatchedColor();
         MoveToTargetPosition();
-
-
     }
     void ChaingeMatchedColor()
     {
@@ -71,7 +69,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         targetY = row;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
-            tempPositon = new Vector3(targetX, transform.position.y, 10f);
+            tempPositon = new Vector3(targetX, transform.position.y, board.transform.position.z); //10f   +가중치를 주는 식
             transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
             if (board.PuzzleBoard[column, row] != this.gameObject)
             {
@@ -81,12 +79,12 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         }
         else
         {
-            tempPositon = new Vector3(targetX, transform.position.y, 10f);
+            tempPositon = new Vector3(targetX, transform.position.y, board.transform.position.z);
             transform.position = tempPositon;
         }
         if (Mathf.Abs(targetY - transform.position.y) > .1)
         {
-            tempPositon = new Vector3(transform.position.x, targetY, 10f);
+            tempPositon = new Vector3(transform.position.x, targetY, board.transform.position.z);
             transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
             if (board.PuzzleBoard[column, row] != this.gameObject)
             {
@@ -97,7 +95,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         }
         else
         {
-            tempPositon = new Vector3(transform.position.x, targetY, 10f);
+            tempPositon = new Vector3(transform.position.x, targetY, board.transform.position.z);
             transform.position = tempPositon;
         }
     }

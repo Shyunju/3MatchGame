@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     private int bestScore;
     private int answer;
     private bool isShowingHowToBoard = false;
+    private CameraSetting cm;
 
     private int retryCount = 0;
     private const int MAX_RETRY = 3;
@@ -72,8 +73,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        LoadInterstitialAd();            //@@@@@@@@@@@@@@@@@@0422fixing( GoToStartScreen to here)@@@@@@@@@
-
+        LoadInterstitialAd();
+        cm = cam.GetComponent<CameraSetting>();
         if (PlayerPrefs.HasKey("BestScore"))
         {
             // 최고 기록을 저장된 값으로 초기화
@@ -172,10 +173,11 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart()
     {
+        board.SettingPosition(20);
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.GameMusicStart();
-        board.SetUp(); 
+        //board.SetUp(); 
         MakeFormula();
     }
     private void MakeFormula()

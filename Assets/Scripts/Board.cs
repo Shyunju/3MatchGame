@@ -37,7 +37,8 @@ public class Board : MonoBehaviour
         gameManager.GetComponent<GameManager>().IsPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
-                Vector2 tempPosition = new Vector2(i,j + offSet);
+                //Vector3 tempPosition = new Vector3(i+1,j + offSet + 0.6f, this.transform.position.z); //@@@@@@@@@@@@@@@@@@@@@
+                Vector3 tempPosition = new Vector3(i,j + offSet, this.transform.position.z); 
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
                 int dotToUse = Random.Range(0, dots.Length);
@@ -192,6 +193,26 @@ public class Board : MonoBehaviour
                 }
             }
             StartCoroutine(FillBoardCo());
+        }
+    }
+    public void SettingPosition(int curLevle)
+    {
+        SetUp();
+        switch (curLevle / 10)
+        {
+            case 1:
+                this.transform.position = new Vector3(this.transform.position.x, -2.4f, 1.6f);
+                break;
+            case 2:
+                this.transform.position = new Vector3(1f, -0.6f, 5.6f);
+                break;
+            case 3:
+                this.transform.position = new Vector3(this.transform.position.x, -2.2f, 10f);
+                break;
+            default:
+                this.transform.position = new Vector3(this.transform.position.x, -1.7f, 10f);
+                break;
+
         }
     }
 }

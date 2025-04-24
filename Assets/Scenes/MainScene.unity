@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 69896895}
   - component: {fileID: 69896894}
   - component: {fileID: 69896897}
+  - component: {fileID: 69896898}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -437,6 +438,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 96
   m_MaxRayIntersections: 0
+--- !u!114 &69896898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69896893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71119cccd573348e88e16d16c3927a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &88921718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,7 +2181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 69896893}
-  time: 5
+  time: 60
   isPlaying: 0
   isTuched: 0
   comboTime: 3
@@ -5989,7 +6002,7 @@ Transform:
   m_GameObject: {fileID: 1726181478}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 2.5}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6011,8 +6024,8 @@ MonoBehaviour:
   audioManager: {fileID: 1865231004}
   findMatches: {fileID: 491252674}
   currentState: 1
-  height: 12
-  width: 8
+  height: 9
+  width: 6
   offSet: 1
   tilePrefab: {fileID: 1555580533481224165, guid: 67ca1816bfb5a458b81e7d210dbb6791, type: 3}
   dots:
