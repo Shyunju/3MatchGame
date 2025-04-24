@@ -130,15 +130,13 @@ public class GameManager : MonoBehaviour
     }
     public void GoToStartScreen()
     {
-        if (this._interstitialAd != null && this._interstitialAd.CanShowAd())      // 여기서 문제@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        if (this._interstitialAd != null && this._interstitialAd.CanShowAd())
         {
-            Debug.Log("Interstitial Ad is ready. Showing now.");
             ShowInterstitialAd();
             retryCount = 0;
         }
         else
         {
-            Debug.LogWarning("Interstitial Ad is not ready yet.");
             ShowToast("광고를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
 
             // 재시도 제한
@@ -150,14 +148,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("광고 재시도 횟수 초과");
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
 
 
     }
-    public void ShowToast(string message)   //4월 17일 추가
+    public void ShowToast(string message)   //화면에 메세지띄우기
     {
 #if UNITY_ANDROID
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -363,9 +360,6 @@ public class GameManager : MonoBehaviour
             });
     }
 
-    /// <summary>
-    /// Shows the interstitial ad.
-    /// </summary>
     public void ShowInterstitialAd()
     {
         if (_interstitialAd != null && _interstitialAd.CanShowAd())
@@ -384,7 +378,6 @@ public class GameManager : MonoBehaviour
             // Debug.Log("Interstitial ad full screen content closed.");
             // 원하는 동작 실행
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            // 예: 게임 재개, 보상 지급, 광고 재로딩 등
             LoadInterstitialAd(); // 광고 다시 로드
         };
 
