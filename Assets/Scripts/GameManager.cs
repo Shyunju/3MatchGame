@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 using GoogleMobileAds;
 using GoogleMobileAds.Api;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Palmmedia.ReportGenerator.Core;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager gameManager;
     [SerializeField] GameObject cam;
     public GameObject Cam {get { return cam;} }
-    [SerializeField] private float time = 60.0f;
+    [SerializeField] private float time;
     [SerializeField] bool isPlaying = false;
     public bool IsPlaying {get{return isPlaying;} set{isPlaying = value;}}
     [SerializeField] bool isTuched = false;
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text answerTxt;              //비교될 값
     [SerializeField] TMP_Text comparatorTxt;          //비교연산자
     [SerializeField] TMP_Text currentScoreTxt;        //현재점수
+    [SerializeField] TMP_Text curGoalScoreTxt;        //현재 레벨 목표 점수
     [SerializeField] GameObject gameOverBoard;        //제한시간이 끝난후
     [SerializeField] GameObject gameStartBoard;       //게임 시작 전
     [SerializeField] GameObject inGameCanvas;         //게임 진행 중
@@ -45,6 +48,14 @@ public class GameManager : MonoBehaviour
     private int bestScore;
     private int answer;
     private bool isShowingHowToBoard = false;
+    private int[] goalScores = {0, 900, 900, 1500, 1800, 2000, 3000};
+    private int curLevel;
+    public int CurLevel {get{return curLevel;} set{curLevel = value;}}    
+    private int answerRangeMin = 2;
+    private int answerRangeMax;
+    public int AnswerRangeMax {get{return answerRangeMax;} set{ answerRangeMax = value;}}
+    private int operRange;
+    private int curGoalScore;
     private CameraSetting cm;
 
     private int retryCount = 0;
@@ -173,17 +184,18 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart()
     {
-        board.SettingPosition(30);
+        board.SettingPosition();
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.GameMusicStart();
         //board.SetUp(); 
+        curGoalScoreTxt.text = "목표점수 : " + curGoalScore.ToString();
         MakeFormula();
     }
     private void MakeFormula()
     {
         //수연산자와 비교연산지 채우기
-        int oper = UnityEngine.Random.Range(1, 4);
+        int oper = UnityEngine.Random.Range(1, operRange);
         operatorArr[0] = oper;
         switch(oper)
         {
@@ -217,7 +229,7 @@ public class GameManager : MonoBehaviour
                 comparatorTxt.text = ">=";
                 break;
         }
-        answer = UnityEngine.Random.Range(10, 82);
+        answer = UnityEngine.Random.Range(answerRangeMin, answerRangeMax);
         answerTxt.text = answer.ToString();
     }
     public void FillNumberText(int num)
@@ -314,6 +326,14 @@ public class GameManager : MonoBehaviour
         }
         howToBoard.SetActive(isShowingHowToBoard);
     }
+    public void SettingLevel(int level){
+        CurLevel = level;
+        operRange = level > 200 ? 4 : 2;
+        answerRangeMax = (level % 100) / 10;
+        curGoalScore = goalScores[level % 10];
+        time = level > 200 ? 60 : 30;
+        GameStart();
+    }
 
     // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
@@ -389,6 +409,7 @@ public class GameManager : MonoBehaviour
             LoadInterstitialAd();
         };
     }
+
 
 
 }

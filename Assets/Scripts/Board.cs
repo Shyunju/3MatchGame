@@ -25,6 +25,8 @@ public class Board : MonoBehaviour
     private int basicScore = 10;
     private int comboScore = 20;
     private int curLevel;
+    private int dotRange;
+    private int resetPenalty = -100;
     private float[] curLevelPositionX = {2f, 1f, 0f};
     private float[] curLevelPositionY = {2.2f, 1.1f, 0f};
     private (int, int)[] levelSize = new (int, int)[]
@@ -54,12 +56,12 @@ public class Board : MonoBehaviour
                 Vector3 tempPosition = new Vector3(i,j + offSet, this.transform.position.z); 
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
-                int dotToUse = Random.Range(0, dots.Length);
+                int dotToUse = Random.Range(0, dotRange);
                 
                 int maxIterations = 0;
                 //초기 퍼즐 보드 노 매칭 적합성 판단(현재 퍼즐로 생성되어 매칭된다면 다른 퍼즐로 변경 후 생성) + 무한루프 방지
                 while(MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100){  
-                    dotToUse = Random.Range(0, dots.Length);
+                    dotToUse = Random.Range(0, dotRange);
                     maxIterations++;
                 }
                 //maxIterations = 0;
@@ -199,22 +201,24 @@ public class Board : MonoBehaviour
     {
         if(currentState == GameState.move)
         {
+            if(gameManager.CurLevel % 10 == 6){
+                gameManager.ChaingeScore(resetPenalty);
+            }
             for(int i = 0; i < width; ++i)
             {
                 for(int j = 0; j<height; ++j)
                 {
                     Destroy(puzzleBoard[i, j]);
                     puzzleBoard[i, j] = null;
-                    //currentState = GameState.wait;
                 }
             }
             StartCoroutine(FillBoardCo());
         }
     }
-    public void SettingPosition(int level)
+    public void SettingPosition()
     {
-        curLevel = level / 10 -1;
-        switch (level / 10)
+        curLevel = gameManager.CurLevel / 100 -1;
+        switch (gameManager.CurLevel / 100)
         {
             case 1:
                 this.transform.position = new Vector3(this.transform.position.x, -2.4f, 1.6f);
@@ -230,6 +234,11 @@ public class Board : MonoBehaviour
                 break;
 
         }
+        SettingNumbers();
         SetUp();
+    }
+    private void SettingNumbers()
+    {
+        dotRange = (gameManager.CurLevel / 10) % 10;
     }
 }
