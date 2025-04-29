@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float comboTime = 3.0f;
     public float ComboTime { get { return comboTime; } }
     [SerializeField] AudioManager audioManager;
+    [SerializeField] GameObject selectLevelBoard;
+    [SerializeField] GameObject firstDisplay;
     [SerializeField] TMP_Text timeTxt;                //시간
     [SerializeField] TMP_Text scoreTxt;               //실시간 점수
     [SerializeField] TMP_Text bestScoreTxt;           //최고점수
@@ -333,6 +335,16 @@ public class GameManager : MonoBehaviour
         curGoalScore = goalScores[level % 10];
         time = level > 200 ? 60 : 30;
         GameStart();
+    }
+    public void GoToSelectLevel()
+    {
+        firstDisplay.SetActive(false);
+        selectLevelBoard.SetActive(true);
+    }
+    public void GoToFirstDisplay()
+    {
+        selectLevelBoard.SetActive(false);
+        firstDisplay.SetActive(true);
     }
 
     // These ad units are configured to always serve test ads.
