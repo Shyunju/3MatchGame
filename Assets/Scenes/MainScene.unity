@@ -1532,53 +1532,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373055473}
   m_CullTransparentMesh: 1
---- !u!1 &457036647
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 457036649}
-  - component: {fileID: 457036648}
-  m_Layer: 0
-  m_Name: AdManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &457036648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457036647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45fadea3113be34f9f40ebfe2bcc086, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _androidGameId: 5834445
-  _iOSGameId: 5834444
-  _testMode: 1
---- !u!4 &457036649
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457036647}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &491252673
 GameObject:
   m_ObjectHideFlags: 0
@@ -6024,8 +5977,8 @@ MonoBehaviour:
   audioManager: {fileID: 1865231004}
   findMatches: {fileID: 491252674}
   currentState: 1
-  height: 9
-  width: 6
+  height: 0
+  width: 0
   offSet: 1
   tilePrefab: {fileID: 1555580533481224165, guid: 67ca1816bfb5a458b81e7d210dbb6791, type: 3}
   dots:
@@ -7914,5 +7867,4 @@ SceneRoots:
   - {fileID: 213028582}
   - {fileID: 846440584}
   - {fileID: 1222509137}
-  - {fileID: 457036649}
   - {fileID: 1042331221}

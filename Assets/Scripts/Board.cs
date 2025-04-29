@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System;
+using Random = UnityEngine.Random;
 
 public enum GameState{
     wait,
@@ -22,18 +24,29 @@ public class Board : MonoBehaviour
     GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
     private int basicScore = 10;
     private int comboScore = 20;
+    private int curLevel;
+    private float[] curLevelPositionX = {2f, 1f, 0f};
+    private float[] curLevelPositionY = {2.2f, 1.1f, 0f};
+    private (int, int)[] levelSize = new (int, int)[]
+    {
+        (4, 6),
+        (6, 9),
+        (8, 12)
+    };
 
     public GameObject[,] PuzzleBoard { get {return puzzleBoard;}}                                   
     
     void Start()
     {
         //findMatches = FindObjectOfType<FindMatches>();
-        puzzleBoard = new GameObject[width,height];
-        allTiles = new BackgroundTile[width, height];
     }
 
     public void SetUp()
     {
+        width = levelSize[curLevel].Item1;
+        height = levelSize[curLevel].Item2;
+        puzzleBoard = new GameObject[width,height];
+        allTiles = new BackgroundTile[width, height];
         gameManager.GetComponent<GameManager>().IsPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
@@ -51,8 +64,11 @@ public class Board : MonoBehaviour
                 }
                 //maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
-                dot.GetComponent<PuzzlePiece>().Row = j;
-                dot.GetComponent<PuzzlePiece>().Column = i;
+                PuzzlePiece curDot = dot.GetComponent<PuzzlePiece>();
+                curDot.LevelPositionX = curLevelPositionX[curLevel];
+                curDot.LevelPositionY = curLevelPositionY[curLevel];
+                curDot.Row = j;
+                curDot.Column = i;
                 puzzleBoard[i,j] = dot;
                 dot.transform.parent = this.transform;
             }
@@ -195,24 +211,25 @@ public class Board : MonoBehaviour
             StartCoroutine(FillBoardCo());
         }
     }
-    public void SettingPosition(int curLevle)
+    public void SettingPosition(int level)
     {
-        SetUp();
-        switch (curLevle / 10)
+        curLevel = level / 10 -1;
+        switch (level / 10)
         {
             case 1:
                 this.transform.position = new Vector3(this.transform.position.x, -2.4f, 1.6f);
                 break;
             case 2:
-                this.transform.position = new Vector3(1f, -0.6f, 5.6f);
+                this.transform.position = new Vector3(0f, 0f, 5.6f);
                 break;
             case 3:
                 this.transform.position = new Vector3(this.transform.position.x, -2.2f, 10f);
                 break;
             default:
-                this.transform.position = new Vector3(this.transform.position.x, -1.7f, 10f);
+                this.transform.position = new Vector3(this.transform.position.x, -2.2f, 10f);
                 break;
 
         }
+        SetUp();
     }
 }

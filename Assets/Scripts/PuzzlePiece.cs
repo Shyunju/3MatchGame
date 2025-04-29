@@ -3,6 +3,7 @@ using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements.Experimental;
 
 public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -16,12 +17,14 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public int Row {get {return row;} set{row = value;} }
     [SerializeField] int previousColumn;
     [SerializeField] int previousRow;
-    [SerializeField] int targetX;
-    [SerializeField] int targetY;
+    [SerializeField] float targetX;
+    [SerializeField] float targetY;
     [SerializeField] bool isMatched = false;
     [SerializeField] float lerpValue;
     public bool IsMatched {get {return isMatched;} set {isMatched = value;} }
 
+    [SerializeField] float swipeAngle = 0;
+    [SerializeField] float swipeResist = .3f;
     [SerializeField] private int number;
     public int Number {get {return number;} }
     private GameManager gameManager;
@@ -33,8 +36,10 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
     private Vector3 finalTouchPosition;
     public Vector3 FinalTouchPosition { get { return finalTouchPosition; } set { finalTouchPosition = value; } }
-    [SerializeField] float swipeAngle = 0;
-    [SerializeField] float swipeResist = .3f;
+    private float levelPositionX;
+    public float LevelPositionX { set { levelPositionX = value; } }
+    private float levelPositionY;
+    public float LevelPositionY { set { levelPositionY = value; } }
     private Camera cam;
     private Vector3 tempPositon;
 
@@ -65,8 +70,9 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     }
     void MoveToTargetPosition()
     {
-        targetX = column;
-        targetY = row;
+        //level1 = 2, 2.2         level2 = +1, 1,1            level3 = 0,0
+        targetX = column + levelPositionX;
+        targetY = row + levelPositionY;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
             tempPositon = new Vector3(targetX, transform.position.y, board.transform.position.z); //10f   +가중치를 주는 식

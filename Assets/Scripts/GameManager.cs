@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart()
     {
-        board.SettingPosition(20);
+        board.SettingPosition(30);
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.GameMusicStart();
