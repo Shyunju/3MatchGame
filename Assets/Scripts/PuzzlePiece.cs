@@ -37,9 +37,9 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     private Vector3 finalTouchPosition;
     public Vector3 FinalTouchPosition { get { return finalTouchPosition; } set { finalTouchPosition = value; } }
     private float levelPositionX;
-    public float LevelPositionX { set { levelPositionX = value; } }
+    public float LevelPositionX { get{return levelPositionX;}set { levelPositionX = value; } }
     private float levelPositionY;
-    public float LevelPositionY { set { levelPositionY = value; } }
+    public float LevelPositionY {get{return levelPositionY;} set { levelPositionY = value; } }
     private Camera cam;
     private Vector3 tempPositon;
 

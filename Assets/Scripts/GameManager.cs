@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     private int answer;
     private bool isShowingHowToBoard = false;
     private int[] goalScores = {0, 900, 900, 1500, 1800, 2000, 3000};
+    private int[] answerRangeArr = { 0, 10, 14, 25, 49, 81, 81};
     private int curLevel;
     public int CurLevel {get{return curLevel;} set{curLevel = value;}}    
     private int answerRangeMin = 2;
@@ -331,7 +332,7 @@ public class GameManager : MonoBehaviour
     public void SettingLevel(int level){
         CurLevel = level;
         operRange = level > 200 ? 4 : 2;
-        answerRangeMax = (level % 100) / 10;
+        answerRangeMax = answerRangeArr[level % 10];
         curGoalScore = goalScores[level % 10];
         time = level > 200 ? 60 : 30;
         GameStart();

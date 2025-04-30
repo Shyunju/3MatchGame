@@ -172,13 +172,19 @@ public class Board : MonoBehaviour
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
                 if(puzzleBoard[i,j] == null){
-                    Vector3 tempPosition = new Vector3(i,j+offSet, 10f);
-                    int dotToUse =  Random.Range(0, dots.Length);
+                    Vector3 tempPosition = new Vector3(i + curLevelPositionX[curLevel],j+offSet+curLevelPositionY[curLevel], 10f);
+                    int dotToUse =  Random.Range(0, dotRange);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity) as GameObject;
                     puzzleBoard[i,j] = piece;
-                    piece.GetComponent<PuzzlePiece>().Row = j;
-                    piece.GetComponent<PuzzlePiece>().Column = i;
+                    // piece.GetComponent<PuzzlePiece>().Row = j;
+                    // piece.GetComponent<PuzzlePiece>().Column = i;
+                    PuzzlePiece curDot = piece.GetComponent<PuzzlePiece>();
+                    curDot.LevelPositionX = curLevelPositionX[curLevel];
+                    curDot.LevelPositionY = curLevelPositionY[curLevel];
+                    curDot.Row = j;
+                    curDot.Column = i;
                     piece.transform.parent = this.transform;
+
 
                 }
             }
