@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Button = UnityEngine.UI.Button;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject howToBoard;
     [SerializeField] private GameObject bestImage;
     [SerializeField] private Board board;
+    [SerializeField] private GameObject[] levelArr;
     private int[] operatorArr = new int[2];             //연산자 배열
     private int bestScore;
     private int answer;
@@ -77,17 +80,11 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(750, 1334, true);
     }
     void Start()
-    {
-        
+    {        
         cm = cam.GetComponent<CameraSetting>();
-        if (PlayerPrefs.HasKey("BestScore"))
+        if (!PlayerPrefs.HasKey("ClearedLevels"))
         {
-            // 최고 기록을 저장된 값으로 초기화
-            bestScore = PlayerPrefs.GetInt("BestScore");
-        }
-        else
-        {
-            bestScore = 0;
+            PlayerPrefs.SetInt("ClearedLevel", 0);            
         }
         Time.timeScale = 1.0f; 
         score = 0;
@@ -122,14 +119,17 @@ public class GameManager : MonoBehaviour
     private void TimeIsUp() //제한시간 종료
     {
         audioManager.StopBGM();
-        if(score > bestScore){
-            audioManager.PlayNewRecordSound();
-            PlayerPrefs.SetInt("BestScore", score);
-            bestImage.SetActive(true);
-        }
         audioManager.PlayMatchedSound();
+        if(score >= curGoalScore){
+            audioManager.PlayNewRecordSound();
+            bestImage.SetActive(true);
+            int clearedLevels = PlayerPrefs.GetInt("ClearedLevels", 0);
+            clearedLevels |= 1 << curLevel % 10; //레벨 클리어
+            PlayerPrefs.SetInt("ClearedLevels", clearedLevels);
+            PlayerPrefs.Save();
+        }
         currentScoreTxt.text = score.ToString();
-        bestScoreTxt.text = bestScore.ToString();
+        bestScoreTxt.text = curGoalScore.ToString();
         gameOverBoard.SetActive(true);
         Time.timeScale = 0.0f;
         board.currentState = GameState.wait;
@@ -290,10 +290,24 @@ public class GameManager : MonoBehaviour
     {
         firstDisplay.SetActive(false);
         selectLevelBoard.SetActive(true);
+        CheckLevelState();
     }
     public void GoToFirstDisplay()
     {
-        selectLevelBoard.SetActive(false);
-        firstDisplay.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    void CheckLevelState()
+    {
+        int clearedLevels = PlayerPrefs.GetInt("ClearedLevels", 0);
+        
+        for(int i = 1; i < 6; i++)
+        {
+            if((clearedLevels & (1 << i)) == 0) //i레벨이 클리어 되어있지 않음
+            {
+                //버튼 배열에서 아이번째 버튼 활성화
+                Button tempButton = levelArr[i].GetComponent<Button>();
+                tempButton.interactable = false;
+            }
+        }
     }
 }

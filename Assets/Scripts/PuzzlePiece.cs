@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements.Experimental;
 
 public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
