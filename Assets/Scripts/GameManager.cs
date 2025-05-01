@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
     public int AnswerRangeMax {get{return answerRangeMax;} set{ answerRangeMax = value;}}
     private int operRange;
     private int curGoalScore;
-    private CameraSetting cm;
 
     
     public float lerpValueTest;
@@ -80,8 +79,7 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(750, 1334, true);
     }
     void Start()
-    {        
-        cm = cam.GetComponent<CameraSetting>();
+    {   
         if (!PlayerPrefs.HasKey("ClearedLevels"))
         {
             PlayerPrefs.SetInt("ClearedLevel", 0);            
@@ -107,6 +105,7 @@ public class GameManager : MonoBehaviour
             scoreTxt.text = score.ToString();
             if (time <= 0.0f)
             {
+                timeTxt.text = "0.00";
                 isPlaying = false;
                 TimeIsUp();
             }
@@ -140,7 +139,6 @@ public class GameManager : MonoBehaviour
         gameStartBoard.SetActive(false);
         inGameCanvas.SetActive(true);
         audioManager.GameMusicStart();
-        //board.SetUp(); 
         curGoalScoreTxt.text = "목표점수 : " + curGoalScore.ToString();
         MakeFormula();
     }
