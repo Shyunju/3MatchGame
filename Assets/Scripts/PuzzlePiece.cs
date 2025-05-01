@@ -5,9 +5,6 @@ using UnityEngine.EventSystems;
 
 public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    
-    //고유의의 값을 져 색을 판별한다.
-    //상하좌우의 퍼즐들의 값이 같으면 파괴한다. 배열에 값을 전달할까?
     [Header("Board Variables")]
     [SerializeField] int column;
     public int Column {get {return column;} set {column = value;} }
@@ -68,12 +65,11 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     }
     void MoveToTargetPosition()
     {
-        //level1 = 2, 2.2         level2 = +1, 1,1            level3 = 0,0
         targetX = column + levelPositionX;
         targetY = row + levelPositionY;
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
-            tempPositon = new Vector3(targetX, transform.position.y, board.transform.position.z); //10f   +가중치를 주는 식
+            tempPositon = new Vector3(targetX, transform.position.y, board.transform.position.z); 
             transform.position = Vector3.Lerp(transform.position, tempPositon, lerpValue);
             if (board.PuzzleBoard[column, row] != this.gameObject)
             {
@@ -210,9 +206,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         {
             firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
         }
-    }
-
-    
+    }   
 
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -222,9 +216,6 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             CalculateAngle();
         }
     }
-
-
-
     public void OnDrag(PointerEventData eventData)
     {
         isPressed = true;
