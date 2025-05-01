@@ -19,7 +19,6 @@ public class Board : MonoBehaviour
     [SerializeField] int offSet;
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject[] dots;                                 //생성가능한 퍼즐 종류
-    private BackgroundTile[,] allTiles;                                 //보드 기판
     GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
     private int basicScore = 10;
     private int comboScore = 20;
@@ -47,11 +46,9 @@ public class Board : MonoBehaviour
         width = levelSize[curLevel].Item1;
         height = levelSize[curLevel].Item2;
         puzzleBoard = new GameObject[width,height];
-        allTiles = new BackgroundTile[width, height];
         gameManager.GetComponent<GameManager>().IsPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
-                //Vector3 tempPosition = new Vector3(i+1,j + offSet + 0.6f, this.transform.position.z); //@@@@@@@@@@@@@@@@@@@@@
                 Vector3 tempPosition = new Vector3(i,j + offSet, this.transform.position.z); 
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
@@ -63,7 +60,6 @@ public class Board : MonoBehaviour
                     dotToUse = Random.Range(0, dotRange);
                     maxIterations++;
                 }
-                //maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
                 PuzzlePiece curDot = dot.GetComponent<PuzzlePiece>();
                 curDot.LevelPositionX = curLevelPositionX[curLevel];
@@ -108,7 +104,6 @@ public class Board : MonoBehaviour
                 audioManager.PlayMatchedSound();
                 if(gameManager.curQState == GameManager.QueueState.empty && gameManager.IsTuched)
                 {
-                    //gameManager.numQueue.Enqueue(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);
                     gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);
                 }
             }
@@ -175,8 +170,6 @@ public class Board : MonoBehaviour
                     int dotToUse =  Random.Range(0, dotRange);
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity) as GameObject;
                     puzzleBoard[i,j] = piece;
-                    // piece.GetComponent<PuzzlePiece>().Row = j;
-                    // piece.GetComponent<PuzzlePiece>().Column = i;
                     PuzzlePiece curDot = piece.GetComponent<PuzzlePiece>();
                     curDot.LevelPositionX = curLevelPositionX[curLevel];
                     curDot.LevelPositionY = curLevelPositionY[curLevel];
