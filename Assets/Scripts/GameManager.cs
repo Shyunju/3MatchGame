@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -46,14 +47,13 @@ public class GameManager : MonoBehaviour
     private int answer;
     private bool isShowingHowToBoard = false;
     private int[] goalScores = {0, 900, 900, 1500, 1800, 2000, 3000};
-    private int[] answerRangeArr = { 0, 10, 14, 25, 49, 81, 81};
     private int curLevel;
     public int CurLevel {get{return curLevel;} set{curLevel = value;}}    
-    private int answerRangeMin = 2;
+    private int answerRangeMin = 3;
     private int answerRangeMax;
-    public int AnswerRangeMax {get{return answerRangeMax;} set{ answerRangeMax = value;}}
     private int operRange;
     private int curGoalScore;
+    private int curNumberRange;
 
     
     public float lerpValueTest;
@@ -151,15 +151,19 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 operatorTxt.text = "+";
+                answerRangeMax = curNumberRange * 2 - 1;
                 break;
             case 2:
                 operatorTxt.text = "-";
+                answerRangeMax = curNumberRange - 2;
                 break;
             case 3:
                 operatorTxt.text = "x";
+                answerRangeMax = (int)Math.Pow(curNumberRange, 2) -1;
                 break;
             case 4:
                 operatorTxt.text = "%";
+                answerRangeMax = curNumberRange - 1;
                 break;
         }
         int comp = UnityEngine.Random.Range(1, 4);
@@ -279,9 +283,9 @@ public class GameManager : MonoBehaviour
     public void SettingLevel(int level){
         CurLevel = level;
         operRange = level > 200 ? 4 : 2;
-        answerRangeMax = answerRangeArr[level % 10];
         curGoalScore = goalScores[level % 10];
-        time = level > 200 ? 60 : 30;
+        curNumberRange = level % 100 / 10;
+        time = level > 200 ? 90 : 60;
         GameStart();
     }
     public void GoToSelectLevel()
