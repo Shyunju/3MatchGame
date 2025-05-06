@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameStartBoard;       //게임 시작 전
     [SerializeField] GameObject inGameCanvas;         //게임 진행 중
     [SerializeField] GameObject pauseBoard;           //게임 일시정지
+    [SerializeField] GameObject protectBoard;
     [SerializeField] private int score;
     [SerializeField] Queue<int> numQueue = new Queue<int>();      //피연산자 큐
     [SerializeField] private int successScore;
@@ -55,8 +56,7 @@ public class GameManager : MonoBehaviour
     private int curGoalScore;
     private int curNumberRange;
 
-    
-    public float lerpValueTest;
+
     public enum QueueState
     {
         empty,
@@ -114,6 +114,10 @@ public class GameManager : MonoBehaviour
     public void ChaingeScore(int num)
     {
         score += num;
+        if(score < 0)
+        {
+            score = 0;
+        }
     }
     private void TimeIsUp() //제한시간 종료
     {
@@ -292,6 +296,7 @@ public class GameManager : MonoBehaviour
     {
         firstDisplay.SetActive(false);
         selectLevelBoard.SetActive(true);
+        StartCoroutine(ProtectButtonCo());
         CheckLevelState();
     }
     public void GoToFirstDisplay()
@@ -308,8 +313,14 @@ public class GameManager : MonoBehaviour
             {
                 //버튼 배열에서 아이번째 버튼 활성화
                 Button tempButton = levelArr[i].GetComponent<Button>();
-                //tempButton.interactable = false;
+                tempButton.interactable = false;
             }
         }
+    }
+
+    IEnumerator ProtectButtonCo()
+    {
+        yield return new WaitForSeconds(0.5f);
+        protectBoard.SetActive(false);
     }
 }

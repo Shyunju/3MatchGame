@@ -15,22 +15,20 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     [SerializeField] float targetX;
     [SerializeField] float targetY;
     [SerializeField] bool isMatched = false;
-    [SerializeField] float lerpValue;
     public bool IsMatched {get {return isMatched;} set {isMatched = value;} }
 
     [SerializeField] float swipeAngle = 0;
-    [SerializeField] float swipeResist = .3f;
     [SerializeField] private int number;
+    float lerpValue = 0.6f;
     public int Number {get {return number;} }
+    private float swipeResist = 0.3f;
     private GameManager gameManager;
     private FindMatches findMatches;
     private Board board;
     private GameObject otherDot;
     private Vector3 firstTouchPosition;
-    public Vector3 FirstTouchPosition { get { return firstTouchPosition; } set { firstTouchPosition = value; } }
 
     private Vector3 finalTouchPosition;
-    public Vector3 FinalTouchPosition { get { return finalTouchPosition; } set { finalTouchPosition = value; } }
     private float levelPositionX;
     public float LevelPositionX { get{return levelPositionX;}set { levelPositionX = value; } }
     private float levelPositionY;
@@ -46,7 +44,6 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         findMatches = FindFirstObjectByType<FindMatches>();
         gameManager = FindFirstObjectByType<GameManager>();
         cam = gameManager.Cam.GetComponent<Camera>();
-        lerpValue = gameManager.lerpValueTest;
     }
 
     private void Update()
@@ -112,10 +109,18 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
                 yield return new WaitForSeconds(.3f);
                 board.currentState = GameState.move;
             }
-            else
+            
+            else if(isMatched)
             {
-                board.DestroyMatches();
+                board.FillNum = Number;
+            }else if(otherDot.GetComponent<PuzzlePiece>().isMatched)
+            {
+                board.FillNum = otherDot.GetComponent<PuzzlePiece>().Number;
             }
+            // else
+            // {
+            board.DestroyMatches();
+            
             otherDot = null;
         }
 
@@ -204,7 +209,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     {
         if (board.currentState == GameState.move)
         {
-            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
+            firstTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 7f));
         }
     }   
 
@@ -212,7 +217,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     {
         if (board.currentState == GameState.move)
         {
-            finalTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 10f));
+            finalTouchPosition = cam.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 7f));
             CalculateAngle();
         }
     }

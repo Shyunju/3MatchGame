@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject[] dots;                                 //생성가능한 퍼즐 종류
     GameObject[,] puzzleBoard;                                   //실제 오브젝트가 들어있는 배열
+    private int fillNum;
+    public int FillNum { set { fillNum = value;}}
     private int basicScore = 10;
     private int comboScore = 20;
     private int curLevel;
@@ -49,7 +51,7 @@ public class Board : MonoBehaviour
         gameManager.GetComponent<GameManager>().IsPlaying = true;
         for(int i = 0; i < width; ++i){
             for(int j = 0; j < height; ++j){
-                Vector3 tempPosition = new Vector3(i,j + offSet, this.transform.position.z); 
+                Vector3 tempPosition = new Vector3(i + curLevelPositionX[curLevel],j + curLevelPositionY[curLevel] + offSet, this.transform.position.z); 
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
                 int dotToUse = Random.Range(0, dotRange);
@@ -104,7 +106,8 @@ public class Board : MonoBehaviour
                 audioManager.PlayMatchedSound();
                 if(gameManager.curQState == GameManager.QueueState.empty && gameManager.IsTuched)
                 {
-                    gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);
+                    //gameManager.FillNumberText(puzzleBoard[column,row].GetComponent<PuzzlePiece>().Number);  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    gameManager.FillNumberText(fillNum);
                 }
             }
             Destroy(puzzleBoard[column, row]);
