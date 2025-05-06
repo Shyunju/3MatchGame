@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
             {
                 //버튼 배열에서 아이번째 버튼 활성화
                 Button tempButton = levelArr[i].GetComponent<Button>();
-                tempButton.interactable = false;
+                //tempButton.interactable = false;
             }
         }
     }
