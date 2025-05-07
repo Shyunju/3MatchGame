@@ -323,4 +323,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         protectBoard.SetActive(false);
     }
+    public void GameExit()
+{
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+}
 }
