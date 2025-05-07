@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        Screen.SetResolution(1080, 1920, true);
+        //Screen.SetResolution(1080, 1920, true);
     }
     void Start()
     {   
@@ -324,11 +324,16 @@ public class GameManager : MonoBehaviour
         protectBoard.SetActive(false);
     }
     public void GameExit()
-{
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
-}
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    
+    }
+    public void GameOverAtWeb()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
