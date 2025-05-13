@@ -9,7 +9,7 @@
 - **개발 도구**: mac, window, Unity6, android
 - **개발 기간**: 2025/03/11 ~ 2025/04/25 (이후 버그수정
 - **대상 API**: API level 10 ~ API level 36
-- **출시 플렛폼**: android(Google Play Store)
+- **출시 플렛폼**: android(Google Play Store), WebGL
 - **제작**: programing - 신현주, UI design - 이송영
 <br><br>
 - **게임 개요:**
@@ -30,8 +30,9 @@
     | 뒤로가기 버튼 | 처음 화면으로 돌아가기 |
 
 
-- **PREVIEW**
-<br>
+## PREVIEW
+
+- **MOBILE**
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/bb0e6926-9941-4b76-a41f-00251eb95a8e">
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/41d2ff30-2f69-4c80-8256-5b6569ab89a4">
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/363fc471-05d4-4aff-9bc2-f1c846c11dcf">
@@ -39,4 +40,6 @@
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/79214581-7f1c-4f23-b950-59a54f97047b">
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/40680a47-31b4-426d-8b08-8055a0fc9a3c">
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/05fc3ebd-6c2f-4f36-8903-f69e8749a71c">
+<br><br>
+- **WEB**
  
