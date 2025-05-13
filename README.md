@@ -30,7 +30,7 @@
     | 뒤로가기 버튼 | 처음 화면으로 돌아가기 |
 
 
-## PREVIEW
+## 🌠PREVIEW
 
 - **MOBILE**
 <img width="272" alt="스크린샷 2023-05-28 162639" src="https://github.com/user-attachments/assets/bb0e6926-9941-4b76-a41f-00251eb95a8e">
