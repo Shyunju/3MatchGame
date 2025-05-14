@@ -209,6 +209,7 @@ public class GameManager : MonoBehaviour
         {
             audioManager.PlayCorrectSound();
             ChaingeScore(successScore);
+            time += 5f;
         }else{
             audioManager.PlayWrongSound();
         }
@@ -289,7 +290,7 @@ public class GameManager : MonoBehaviour
         operRange = level > 200 ? 4 : 2;
         curGoalScore = goalScores[level % 10];
         curNumberRange = level % 100 / 10;
-        time = level > 200 ? 90 : 60;
+        time = level > 200 ? 80 : 50;
         GameStart();
     }
     public void GoToSelectLevel()
@@ -313,7 +314,7 @@ public class GameManager : MonoBehaviour
             {
                 //버튼 배열에서 아이번째 버튼 활성화
                 Button tempButton = levelArr[i].GetComponent<Button>();
-                //tempButton.interactable = false;
+                tempButton.interactable = false;
             }
         }
     }
