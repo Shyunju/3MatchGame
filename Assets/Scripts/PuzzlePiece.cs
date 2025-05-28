@@ -17,7 +17,7 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     [SerializeField] bool isMatched = false;
     public bool IsMatched {get {return isMatched;} set {isMatched = value;} }
 
-    [SerializeField] float swipeAngle = 0;
+    float swipeAngle = 0.3f;
     [SerializeField] private int number;
     float lerpValue = 0.6f;
     public int Number {get {return number;} }
