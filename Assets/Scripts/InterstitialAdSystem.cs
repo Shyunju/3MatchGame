@@ -7,11 +7,11 @@ public class InterstitialAdSystem : MonoBehaviour
     private const int MAX_RETRY = 3;
     // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
-    private string _adUnitId = "ca-app-pub-3940256099942544/1033173712";
+    private string _adUnitId = "ca-app-pub-4556004795553060/7469177892";
 #elif UNITY_IPHONE
   private string _adUnitId = "ca-app-pub-3940256099942544/4411468910";
 #else
-  private string _adUnitId = "unused";
+    private string _adUnitId = "unused";
 #endif
 
     private InterstitialAd _interstitialAd;

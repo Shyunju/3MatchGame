@@ -18,11 +18,11 @@ public class BottomBanner : MonoBehaviour
 
     // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
-    private string _adUnitId = "ca-app-pub-3940256099942544/6300978111";
+    private string _adUnitId = "ca-app-pub-4556004795553060/4195550829";
 #elif UNITY_IPHONE
   private string _adUnitId = "ca-app-pub-3940256099942544/2934735716";
 #else
-  private string _adUnitId = "unused";
+    private string _adUnitId = "unused";
 #endif
 
     BannerView _bannerView;
