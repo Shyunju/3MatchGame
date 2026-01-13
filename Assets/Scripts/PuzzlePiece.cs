@@ -117,8 +117,6 @@ public class PuzzlePiece : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             {
                 board.FillNum = otherDot.GetComponent<PuzzlePiece>().Number;
             }
-            // else
-            // {
             board.DestroyMatches();
             
             otherDot = null;

@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text comparatorTxt;          //비교연산자
     [SerializeField] TMP_Text currentScoreTxt;        //현재점수
     [SerializeField] TMP_Text curGoalScoreTxt;        //현재 레벨 목표 점수
+    [SerializeField] TMP_Text curLevelTxt;            //현재 진행 레벨
     [SerializeField] GameObject gameOverBoard;        //제한시간이 끝난후
     [SerializeField] GameObject gameStartBoard;       //게임 시작 전
     [SerializeField] GameObject inGameCanvas;         //게임 진행 중
@@ -209,6 +210,7 @@ public class GameManager : MonoBehaviour
         {
             audioManager.PlayCorrectSound();
             ChaingeScore(successScore);
+            time += 5f;
         }else{
             audioManager.PlayWrongSound();
         }
@@ -289,7 +291,8 @@ public class GameManager : MonoBehaviour
         operRange = level > 200 ? 4 : 2;
         curGoalScore = goalScores[level % 10];
         curNumberRange = level % 100 / 10;
-        time = level > 200 ? 90 : 60;
+        time = level > 200 ? 80 : 50;
+        curLevelTxt.text = "Level " + (CurLevel % 10).ToString();
         GameStart();
     }
     public void GoToSelectLevel()
@@ -324,11 +327,16 @@ public class GameManager : MonoBehaviour
         protectBoard.SetActive(false);
     }
     public void GameExit()
-{
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
-}
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    
+    }
+    public void GameOverAtWeb()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

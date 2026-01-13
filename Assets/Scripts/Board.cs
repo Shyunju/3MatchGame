@@ -27,8 +27,10 @@ public class Board : MonoBehaviour
     private int curLevel;
     private int dotRange;
     private int resetPenalty = -100;
-    private float[] curLevelPositionX = {2f, 1f, 0f};
-    private float[] curLevelPositionY = {2.2f, 1.1f, 0f};
+    private float[] curLevelPositionX = {0.85f, 1f, 1.2f};
+    //private float[] curLevelPositionX = {2f, 1f, 0f};
+    private float[] curLevelPositionY = {2.2f, 0.5f, -1.2f};
+    //private float[] curLevelPositionY = {2.2f, 1.1f, 0f};
     private (int, int)[] levelSize = new (int, int)[]
     {
         (4, 6),
